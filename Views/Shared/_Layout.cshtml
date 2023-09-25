@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SEP - Sistema de Estágio Probatório da Prefeitura Municipal de Três Marias</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/pmtm.ico" type="image/x-icon">
+
+    <!-- Importação do css do plug-in Datatable -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+        asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
+        asp-append-version="true" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="/lib/bootstrap-icons/font/bootstrap-icons.min.css" asp-append-version="true" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow border-bottom p-3">
+            @await Component.InvokeAsync("Menu") @* chamada do componente de menu implementado em ViewsComponent *@
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer border top text-muted">
+        <div class="container text-center">
+            <span class="">&copy;</span> 2023 - SEP WEB - Sistema de Estágio Probatório da Prefeitura Municipal de Três
+            Marias - <span class=""><i class="bi bi-calendar-event"></i> @DateTime.Now.ToString("dd/MM/yyyy") - <i
+                    class="bi bi-clock-fill"></i> @DateTime.Now.ToString("HH:mm")</span>
+        </div>
+    </footer>
+
+    <!-- jQuery e Bootstrap JS -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Importação do JavaScript do plug-in Datatable -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js" asp-append-version="true"></script>
+
+    <!-- Custom Js -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/register_instituition.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+@model Instituition
+@using SEP_Web.Models
+@{
+    ViewData["Title"] = "Edição de órgão";
+}
+
+<div>
+
+    <form asp-controller="Instituition" asp-action="Edit" method="post">
+
+        <input id="edit-instituition-id" type="hidden" asp-for="Id">
+
+        <div class="form-group p-3">
+            <input type="text" class="form-control"  maxlength="60" minlength="8" id="edit-Instituition-name" name="Name" asp-for="Name" required/>
+        </div>
+
+        <div class="modal-footer p-2">
+            <button type="submit" class="btn btn-primary btn-md">Salvar</button>
+            <a asp-controller="Instituition" asp-action="Index" class="btn btn-outline-secondary btn-md" title="Cancelar">Cancelar</a>
+        </div>
+
+    </form>
+
+</div>

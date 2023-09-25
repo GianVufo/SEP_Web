@@ -1,0 +1,108 @@
+@model Login
+@using SEP_Web.Models
+@{
+    Layout = "_LayoutLoggedOut";
+    ViewData["Title"] = "Login";
+}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card rounded-3 shadow-lg">
+
+                <div class="card-header b py-3 border-primary bg-primary text-light">
+                    <h2 class="my-0 text-center">@ViewData["title"]</h2>
+                </div>
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div id="login-alert" class="alert alert-sm alert-danger" role="alert">
+                        <button type="button" class="btn btn-danger btn-sm close-alert" data-dismiss="modal"
+                            aria-label="Close">
+                            <span class="close-span fs-6" aria-hidden="true">&times;</span>
+                        </button>
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <div class="card-body">
+                    <form id="login-form" class="p-3 m-0" asp-controller="Login" asp-action="SignIn" method="post">
+
+                        <label for="login-masp" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-primary border-primary text-light"><i
+                                    class="bi bi-person-vcard"></i></span>
+                            <input type="number" class="form-control" id="login-masp" asp-for="Masp"
+                                placeholder="Informe seu MASP">
+                        </div>
+                        <span class="field-validation-error">@TempData["InvalidMASP"]</span>
+                        @Html.ValidationMessageFor(x => x.Masp)
+
+                        <label for="login-name" class="form-label"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-primary border-primary text-light"><i
+                                    class="bi bi-person-circle"></i></span>
+                            <input type="text" class="form-control" id="login-name" asp-for="LoginName"
+                                placeholder="Informe seu nome de usuário">
+                        </div>
+                        <span class="field-validation-error">@TempData["Invalidlogin"]</span>
+                        @Html.ValidationMessageFor(x => x.LoginName)
+
+                        <label for="login-password" class="form-label"></label>
+                        <div class="input-group">
+                            <a class="btn bg-primary text-light" href="#" id="toggle-password">
+                                <i id="password-icon" class="bi bi-eye-slash-fill"></i>
+                            </a>
+                            <input type="password" class="form-control" id="login-password" asp-for="Password"
+                                placeholder="Digite sua senha">
+                        </div>
+                        <span class="field-validation-error">@TempData["InvalidPass"]</span>
+                        @Html.ValidationMessageFor(x => x.Password)
+
+                        <div class="d-grid col-md-6 m-auto mt-3">
+                            <button type="submit" class="btn bg-primary text-light">Entrar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // função de exbir e ocultar senha na tela de login;
+
+            const passwordInput = document.getElementById("login-password");
+            const togglePasswordButton = document.getElementById("toggle-password");
+            const passwordIcon = document.getElementById("password-icon");
+
+            togglePasswordButton.addEventListener("mousedown", function () {
+
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    passwordIcon.classList.remove("bi-eye-slash-fill");
+                    passwordIcon.classList.add("bi-eye-fill");
+                }
+            });
+
+            togglePasswordButton.addEventListener("mouseup", function () {
+                if (passwordInput.type === "text") {
+                    passwordInput.type = "password";
+                    passwordIcon.classList.remove("bi-eye-fill");
+                    passwordIcon.classList.add("bi-eye-slash-fill");
+                }
+            });
+
+        });
+    </script>
+}

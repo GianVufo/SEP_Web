@@ -1,0 +1,82 @@
+@model UserAdministrator
+@using SEP_Web.Models
+@using SEP_Web.Keys
+@{
+    ViewData["Title"] = "Edição de usuário";
+}
+
+<div class="container">
+
+    <h1 class="text-center mt-5 mb-3">@ViewData["Title"]</h1>
+
+    <form asp-controller="UserAdministrator" asp-action="Edit" method="post">
+
+        <div class="row">
+
+            <div class="col-md-6 register-col">
+
+                <div class="hidden-id form-group">
+                    <label for="edit-user-id" hidden>ID:</label>
+                    <input type="hidden" class="form-control" id="edit-user-id" name="user-id" asp-for="Id" />
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-user-masp">MASP:</label>
+                    <input type="text" class="form-control" id="edit-user-masp" name="masp" asp-for="Masp" />
+                    @Html.ValidationMessageFor(x => x.Masp)
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-user-name">Nome Completo:</label>
+                    <input type="text" class="form-control" id="edit-user-name" name="Name" asp-for="Name" />
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+
+                <div id="login-input" class="form-group">
+                    <label for="edit-user-login">Login:</label>
+                    <input type="text" class="form-control" id="edit-user-login" name="login" asp-for="Login" />
+                    @Html.ValidationMessageFor(x => x.Login)
+                </div>
+
+            </div>
+
+            <div class="col-md-6 register-col">
+
+                <div class="form-group">
+
+                    <label for="edit-user-email">E-mail:</label>
+                    <input type="text" class="form-control" id="edit-user-email" name="email" asp-for="Email" />
+                    @Html.ValidationMessageFor(x => x.Email)
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="edit-user-phone">Telefone:</label>
+                    <input type="text" class="form-control" id="edit-user-phone" name="phone" asp-for="Phone" />
+                    @Html.ValidationMessageFor(x => x.Phone)
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="edit-user-position">Cargo:</label>
+                    <input type="text" class="form-control" id="edit-user-position" name="Position"
+                        asp-for="Position" />
+                    @Html.ValidationMessageFor(x => x.Position)
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group mb-3 mt-3">
+            <button type="submit" class="btn btn-primary mb-3">Editar</button>
+            <a role="button" asp-controller="UserAdministrator" asp-action="Index"
+                class="btn btn-secondary mb-3">Voltar</a>
+        </div>
+
+    </form>
+
+</div>
