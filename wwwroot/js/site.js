@@ -2,8 +2,8 @@
     getDatatableClass('.table-style');
 });
 
-function getDatatableClass(id) {
-    $(id).DataTable({
+function getDatatableClass(tableClass) {
+    $(tableClass).DataTable({
         "ordering": true,
         "paging": true,
         "searching": true,

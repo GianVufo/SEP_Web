@@ -15,6 +15,7 @@ namespace SEP_Web.Services
 
         public async Task<Instituition> RegisterInstituition(Instituition instituition)
         {
+            instituition.RegisterDate = DateTime.Now;
             await _database.Instituition.AddAsync(instituition);
             await _database.SaveChangesAsync();
             return instituition;
@@ -25,6 +26,8 @@ namespace SEP_Web.Services
             Instituition instituitionEdit = SearchForId(instituition.Id) ?? throw new Exception("Houve um erro na atualização do órgão");
 
             instituitionEdit.Name = instituition.Name;
+            instituitionEdit.ModifyDate = DateTime.Now;
+
             instituitionEdit.UserAdministratorId = instituition.UserAdministratorId;
 
             _database.Instituition.Update(instituitionEdit);

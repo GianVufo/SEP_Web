@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP_Web.Migrations
 {
-    public partial class Sep_Context : Migration
+    public partial class SEP_Context : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,9 +26,9 @@ namespace SEP_Web.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "longtext", nullable: false)
+                    Email = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Phone = table.Column<string>(type: "longtext", nullable: false)
+                    Phone = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Position = table.Column<string>(type: "varchar(35)", maxLength: 35, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -50,6 +50,8 @@ namespace SEP_Web.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    RegisterDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UserAdministratorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

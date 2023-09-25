@@ -11,8 +11,8 @@ using SEP_Web.Database;
 namespace SEP_Web.Migrations
 {
     [DbContext(typeof(SEP_WebContext))]
-    [Migration("20230924221647_Sep_Context")]
-    partial class Sep_Context
+    [Migration("20230925222429_SEP_Context")]
+    partial class SEP_Context
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,10 +51,16 @@ namespace SEP_Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
+
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserAdministratorId")
                         .HasColumnType("int");
@@ -122,7 +128,8 @@ namespace SEP_Web.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Login")
                         .IsRequired()
@@ -148,7 +155,8 @@ namespace SEP_Web.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("Position")
                         .IsRequired()
