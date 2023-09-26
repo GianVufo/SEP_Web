@@ -1,0 +1,23 @@
+@model Division
+@using SEP_Web.Models
+@{
+    ViewData["Title"] = "Cadastrar Divisão";
+}
+
+<div>
+
+    <form id="division-form">
+
+        <div class="form-group p-3">
+            <input type="text" placeholder="Informe a descrição da divisão :" class="form-control" id="division-name" name="name" />
+            <span class="field-validation-error"></span>
+        </div>
+
+        <div class="modal-footer p-2">
+            <button type="submit" class="btn btn-primary btn-md">Salvar</button>
+            <a asp-controller="Division" asp-action="Index" class="btn btn-outline-secondary btn-md" title="Cancelar">Cancelar</a>
+        </div>
+
+    </form>
+
+</div>
