@@ -5,6 +5,7 @@
 }
 
 <div class="p-3">
+
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success" role="alert">
@@ -24,45 +25,56 @@
             @TempData["ErrorMessage"]
         </div>
     }
+
 </div>
 
 <div class="d-flex justify-content-start w-100">
-    <button title="Cadastrar Órgão" style="width: 18vh;" type="button" data-bs-toggle="modal"
-        data-bs-target="#instituition-register"
-        class="btn btn-primary d-flex justify-content-evenly btn-adm-register btn-md mb-3"><i
-            class="bi bi-person-plus-fill"></i> Novo</button>
+    <button title="Cadastrar Órgão" style="width: 18vh;" type="button" data-bs-toggle="modal" data-bs-target="#instituition-register" class="btn btn-primary d-flex justify-content-evenly btn-adm-register btn-md mb-3"><i class="bi bi-person-plus-fill"></i> Novo </button>
 </div>
 
-<!-- Modal de Registro -->
-<div class="modal fade" id="instituition-register" tabindex="-1" role="dialog"
-    aria-labelledby="instituition-registerTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header p-3">
-                <h3 class="modal-title text-center mb-0 p-0" id="instituition-registerTitle">Adicionar Órgão</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+@* Modal de Registro  *@
+
+    <div class="modal fade" id="instituition-register" tabindex="-1" role="dialog" aria-labelledby="instituition-registerTitle" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header p-3">
+                    <h3 class="modal-title text-center mb-0 p-0" id="instituition-registerTitle">Adicionar órgão</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-1">
+                    @await Html.PartialAsync("_Register.cshtml", new Instituition())
+                </div>
+
             </div>
-            <div class="modal-body p-1">
-                @await Html.PartialAsync("_Register.cshtml", new Instituition())
-            </div>
+
         </div>
+
     </div>
-</div>
-<!-- Fim do Modal de Registro -->
+
+@* Fim do Modal de Registro *@
 
 <div class="table-responsive-md">
+
     <table id="instituition-table" class="table table-style table-bordered table-striped table-light p-0">
+
         <thead class="table-dark">
             <tr>
                 <th scope="col">Descrição</th>
                 <th scope="col"></th>
             </tr>
         </thead>
+
         <tbody>
+
             @foreach (Instituition instituition in Model)
             {
                 <tr>
                     <td scope="row">@instituition.Name</td>
+
+
                     <td scope="row">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <button type="button" data-bs-toggle="modal"
@@ -72,43 +84,58 @@
                                 data-bs-target="#instituition-@instituition.Id"
                                 class="btn btn-sm btn-outline-danger">Apagar</button>
                         </div>
+
                     </td>
+
                 </tr>
 
-                <!-- Modal de Edição -->
-                <div class="modal fade" id="instituition-edit-@instituition.Id" tabindex="-1" role="dialog"
-                    aria-labelledby="instituition-editTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header p-3">
-                                <h3 class="modal-title text-center mb-0 p-0" id="instituition-editTitle">Editar Órgão</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body p-1">
-                                @await Html.PartialAsync("_Edit.cshtml", instituition)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Fim do Modal de Edição -->
+                @* Modal de Edição *@
 
-                <!-- Modal de Exclusão -->
-                <div class="modal fade" id="instituition-@instituition.Id" tabindex="-1" role="dialog"
-                    aria-labelledby="instituitionTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header p-3">
-                                <h3 class="modal-title text-danger text-center mb-0 p-0" id="instituitionTitle">Alerta!</h3>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal fade" id="instituition-edit-@instituition.Id" tabindex="-1" role="dialog" aria-labelledby="instituition-editTitle" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+
+                            <div class="modal-content">
+                                <div class="modal-header p-3">
+                                    <h3 class="modal-title text-center mb-0 p-0" id="instituition-editTitle">Editar órgão</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-1">
+                                    @await Html.PartialAsync("_Edit.cshtml", instituition)
+                                </div>
                             </div>
-                            <div class="modal-body p-1">
-                                @await Html.PartialAsync("_Delete.cshtml", instituition)
-                            </div>
+
                         </div>
+
                     </div>
-                </div>
-                <!-- Fim do Modal de Exclusão -->
+
+                @* Fim do Modal de Edição *@
+
+                @* Modal de Exclusão *@
+
+                    <div class="modal fade" id="instituition-@instituition.Id" tabindex="-1" role="dialog" aria-labelledby="instituitionTitle" aria-hidden="true">
+
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+
+                            <div class="modal-content">
+                                <div class="modal-header p-3">
+                                    <h3 class="modal-title text-danger text-center mb-0 p-0" id="instituitionTitle">Alerta!</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-1">
+                                    @await Html.PartialAsync("_Delete.cshtml", instituition)
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                @* Fim do Modal de Exclusão *@
             }
+
         </tbody>
+
     </table>
+
 </div>
