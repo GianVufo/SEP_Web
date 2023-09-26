@@ -63,7 +63,7 @@ button.accept-policy {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 8vh;
+  height: 10vh;
 }
 
 #login-image {
@@ -146,9 +146,13 @@ button.accept-policy {
 #users-table tr > td:nth-child(4),
 #users-table tr > td:nth-child(5),
 #users-table tr > td:nth-child(6) {
-  width: 1%;
+  width: 100%;
   white-space: nowrap;
   text-align: left;
+}
+
+#users-table tr > td:first-child {
+  width: 1%;
 }
 
 #users-table tr > td:last-child {

@@ -226,3 +226,6 @@ System.AggregateException: An error occurred while writing to logger(s). (Could 
    at Microsoft.Extensions.Logging.EventLog.EventLogLogger.Log[TState](LogLevel logLevel, EventId eventId, TState state, Exception exception, Func`3 formatter)
    at Microsoft.Extensions.Logging.Logger.<Log>g__LoggerLog|12_0[TState](LogLevel logLevel, EventId eventId, ILogger logger, Exception exception, Func`3 formatter, List`1& exceptions, TState& state)<---
 
+2023-09-25T21:22:06.8214688-03:00 0HMTU47SM7LJP:00000004 [ERR] Não foi possível realizar o login (475ca94a)
+2023-09-25T21:22:28.3206506-03:00 0HMTU47SM7LJQ:00000009 [ERR] Não foi possível realizar o login (475ca94a)
+2023-09-25T21:43:34.2672873-03:00 0HMTU53SFG39K:00000006 [ERR] Não foi possível realizar o login (475ca94a)

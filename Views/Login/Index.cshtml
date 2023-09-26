@@ -5,15 +5,15 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="container">
+<div class="container p-0 m-0">
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center p-0 m-0">
 
         <div class="col-md-6">
 
-            <div class="card rounded-3 shadow-lg">
+            <div class="card rounded-3 shadow-lg mt-3">
 
-                <div class="card-header b py-3 border-primary bg-primary text-light">
+                <div class="card-header bg-primary text-light">
                     <h2 class="my-0 text-center">@ViewData["title"]</h2>
                 </div>
 
@@ -35,6 +35,7 @@
                         <div class="input-group">
                             <span class="input-group-text bg-primary border-primary text-light"><i
                                     class="bi bi-person-vcard"></i></span>
+                            <label for="login-masp" hidden>MASP:</label>
                             <input type="number" class="form-control" id="login-masp" asp-for="Masp"
                                 placeholder="Informe seu MASP">
                         </div>
@@ -45,6 +46,7 @@
                         <div class="input-group">
                             <span class="input-group-text bg-primary border-primary text-light"><i
                                     class="bi bi-person-circle"></i></span>
+                            <label for="login-name" hidden>Login:</label>
                             <input type="text" class="form-control" id="login-name" asp-for="LoginName"
                                 placeholder="Informe seu nome de usuário">
                         </div>
@@ -56,6 +58,7 @@
                             <a class="btn bg-primary text-light" href="#" id="toggle-password">
                                 <i id="password-icon" class="bi bi-eye-slash-fill"></i>
                             </a>
+                            <label for="login-password" hidden>Senha:</label>
                             <input type="password" class="form-control" id="login-password" asp-for="Password"
                                 placeholder="Digite sua senha">
                         </div>
@@ -67,7 +70,9 @@
                         </div>
 
                     </form>
+
                 </div>
+
             </div>
 
         </div>
@@ -75,34 +80,3 @@
     </div>
 
 </div>
-
-@section Scripts{
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            // função de exbir e ocultar senha na tela de login;
-
-            const passwordInput = document.getElementById("login-password");
-            const togglePasswordButton = document.getElementById("toggle-password");
-            const passwordIcon = document.getElementById("password-icon");
-
-            togglePasswordButton.addEventListener("mousedown", function () {
-
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text";
-                    passwordIcon.classList.remove("bi-eye-slash-fill");
-                    passwordIcon.classList.add("bi-eye-fill");
-                }
-            });
-
-            togglePasswordButton.addEventListener("mouseup", function () {
-                if (passwordInput.type === "text") {
-                    passwordInput.type = "password";
-                    passwordIcon.classList.remove("bi-eye-fill");
-                    passwordIcon.classList.add("bi-eye-slash-fill");
-                }
-            });
-
-        });
-    </script>
-}

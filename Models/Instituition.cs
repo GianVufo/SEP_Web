@@ -10,7 +10,7 @@ public class Instituition
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Informe uma descrição para o órgão!")]
-    [StringLength(60),MaxLength(60, ErrorMessage = "A descrição não pode conter mais de 60 caracteres.")]
+    [StringLength(60), MaxLength(60, ErrorMessage = "A descrição não pode conter mais de 60 caracteres.")]
     [MinLength(8, ErrorMessage = "A descrição não pode conter menos de 8 caracteres.")]
     public string Name { get; set; }
 

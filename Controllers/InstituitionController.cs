@@ -25,7 +25,7 @@ public class InstituitionController : Controller
 
     public async Task<IActionResult> Index()
     {
-        ICollection<Instituition> instituitions =  await _instituitionServices.InstituitionsList();
+        ICollection<Instituition> instituitions = await _instituitionServices.InstituitionsList();
 
         return View(instituitions);
     }
@@ -65,11 +65,11 @@ public class InstituitionController : Controller
                 UserAdministrator userInSession = _session.SearchUserSession();
                 instituition.UserAdministratorId = userInSession.Id;
 
-                await _instituitionServices.InstituitionEdit(instituition); 
+                await _instituitionServices.InstituitionEdit(instituition);
                 TempData["SuccessMessage"] = "órgão editado com sucesso.";
                 return RedirectToAction("Index");
             }
-            
+
             return View();
         }
         catch (Exception e)

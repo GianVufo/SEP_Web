@@ -1,7 +1,8 @@
-﻿$(document).ready(function () {
-    getDatatableClass('.table-style');
+﻿$('.table-style').show(function () { 
+    getDatatableClass('.table-style') 
 });
 
+/* função de configuração do plugin data-table e aplicação do plugin de acordo com a classe capturada */
 function getDatatableClass(tableClass) {
     $(tableClass).DataTable({
         "ordering": true,
@@ -30,14 +31,49 @@ function getDatatableClass(tableClass) {
                 "sSortDescending": ": Ordenar colunas de forma descendente"
             }
         }
-    }).buttons().container()
-        .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+    });
 }
 
+/* Evento para fechar o alert de secesso ou erro das validações */
 $('.close-alert').click(function () {
     $('.alert').hide('hide')
 });
 
-// setTimeout(function () {
-//     $('.alert').hide('hide').fadeOut(500);
-// }, 1000);
+/* 
+    esta dnção também realiza o fechamneto de alert porém de forma automática utilizando o setTimeout();
+
+    // setTimeout(function () {
+    //     $('.alert').hide('hide').fadeOut(500);
+    // }, 1000);
+
+*/
+
+/* função de exbir e ocultar senha na tela de login */
+document.addEventListener("DOMContentLoaded", function () {
+
+    const passwordInput = document.getElementById("login-password");
+    const togglePasswordButton = document.getElementById("toggle-password");
+    const passwordIcon = document.getElementById("password-icon");
+
+    if (togglePasswordButton != null) {
+        togglePasswordButton.addEventListener("mousedown", function () {
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordIcon.classList.remove("bi-eye-slash-fill");
+                passwordIcon.classList.add("bi-eye-fill");
+            }
+        });
+    }
+
+    if (togglePasswordButton != null) {
+        togglePasswordButton.addEventListener("mouseup", function () {
+            if (passwordInput.type === "text") {
+                passwordInput.type = "password";
+                passwordIcon.classList.remove("bi-eye-fill");
+                passwordIcon.classList.add("bi-eye-slash-fill");
+            }
+        });
+    }
+
+});
