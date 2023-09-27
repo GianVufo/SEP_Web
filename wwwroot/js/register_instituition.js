@@ -1,7 +1,6 @@
 function RegisterInstituition() {
     let properties = {
         Name: $("#instituition-name").val(),
-        // UserAdministratorId: $("#seclectUserRegister").val(),
     };
     $.post("/Instituition/Register", properties)
 
