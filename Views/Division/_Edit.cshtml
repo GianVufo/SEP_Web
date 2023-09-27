@@ -6,12 +6,25 @@
 
 <div>
 
-    <form asp-controller="Division" asp-action="Edit" method="post">
+    <form id="edit-division-form">
 
-        <input id="edit-division-id" type="hidden" asp-for="Id">
+        <input type="hidden" id="edit-division-id" asp-for="Id">
 
         <div class="form-group p-3">
-            <input type="text" class="form-control" maxlength="60" minlength="8" id="edit-division-name" name="Name" asp-for="Name" required />
+            <label for="edit-fk-instituition" hidden>Órgão: </label>
+            <select class="form-select" name="instituitionId" id="edit-fk-instituition" asp-for="InstituitionId" onfocus="this.size=2" onblur="this.size=1" onchange="this.size=1" required>
+                <option value="" selected> -- selecione o órgão -- </option>
+                @foreach (var i in await Model.InstituitionsList())
+                {
+                    <option value="@i.Id">@i.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group p-3">
+            <label for="edit-division-name" hidden>Descrição: </label>
+            <input type="text" placeholder="Informe a descrição da divisão :" class="form-control" id="edit-division-name" name="name" asp-for="Name"/>
+            <span class="field-validation-error"></span>
         </div>
 
         <div class="modal-footer p-2">

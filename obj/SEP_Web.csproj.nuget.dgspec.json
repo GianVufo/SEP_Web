@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrador\\Desktop\\SEP_Web\\SEP_Web.csproj": {}
+    "C:\\Users\\gianluca.vialli\\Desktop\\SEP_Web\\SEP_Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrador\\Desktop\\SEP_Web\\SEP_Web.csproj": {
+    "C:\\Users\\gianluca.vialli\\Desktop\\SEP_Web\\SEP_Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrador\\Desktop\\SEP_Web\\SEP_Web.csproj",
+        "projectUniqueName": "C:\\Users\\gianluca.vialli\\Desktop\\SEP_Web\\SEP_Web.csproj",
         "projectName": "SEP_Web",
-        "projectPath": "C:\\Users\\Administrador\\Desktop\\SEP_Web\\SEP_Web.csproj",
-        "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrador\\Desktop\\SEP_Web\\obj\\",
+        "projectPath": "C:\\Users\\gianluca.vialli\\Desktop\\SEP_Web\\SEP_Web.csproj",
+        "packagesPath": "C:\\Users\\gianluca.vialli\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gianluca.vialli\\Desktop\\SEP_Web\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Administrador\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\gianluca.vialli\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -76,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.414\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.413\\RuntimeIdentifierGraph.json"
         }
       }
     }

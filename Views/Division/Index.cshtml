@@ -62,8 +62,8 @@
 
         <thead class="table-dark">
             <tr>
-                <th scope="col">Órgão</th>
                 <th scope="col">Descrição</th>
+                <th scope="col">Órgão</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -76,8 +76,9 @@
                 var instituition = new Division().InstituitionName(division);
 
                 <tr>
-                    <td scope="row">@await instituition</td>
+
                     <td scope="row">@division.Name</td>
+                    <td scope="row">@await instituition</td>
 
                     <td scope="row">
                         <div class="btn-group" role="group" aria-label="Basic example">

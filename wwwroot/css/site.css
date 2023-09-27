@@ -130,12 +130,6 @@ button.accept-policy {
   text-align: left;
 }
 
-#users-table tr > td:last-child {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 #users-table {
   padding: 1vh;
 }
@@ -159,6 +153,14 @@ button.accept-policy {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#division-table tr > td:first-child,
+#division-table tr > td:nth-child(2),
+#division-table tr > td:nth-child(3) {
+  width: 45%;
+  white-space: nowrap;
+  text-align: left;
 }
 
 /* Chrome e outros - Ocultar scroll do input type="number"*/

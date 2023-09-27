@@ -21,9 +21,19 @@ namespace SEP_Web.Services
             return division;
         }
 
-        public Task<Division> DivisionEdit(Division division)
+        public async Task<Division> DivisionEdit(Division division)
         {
-            throw new NotImplementedException();
+            Division divisionEdit = SearchForId(division.Id) ?? throw new Exception("Houve um erro na atualização do órgão");
+
+            divisionEdit.Name = division.Name;
+            divisionEdit.ModifyDate = DateTime.Now;
+
+            divisionEdit.UserAdministratorId = division.UserAdministratorId;
+
+            _database.Division.Update(divisionEdit);
+            await _database.SaveChangesAsync();
+
+            return divisionEdit;
         }
 
         public async Task<ICollection<Division>> DivisionsList()
@@ -39,7 +49,7 @@ namespace SEP_Web.Services
 
         public Division SearchForId(int id)
         {
-            throw new NotImplementedException();
+            return _database.Division.FirstOrDefault(x => x.Id == id);
         }
     }
 }

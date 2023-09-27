@@ -53,6 +53,32 @@ public class DivisionController : Controller
         }
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Edit(Division division)
+    {
+        try
+        {
+
+            if (ModelState.IsValid)
+            {
+                UserAdministrator userInSession = _session.SearchUserSession();
+                division.UserAdministratorId = userInSession.Id;
+
+                await _divisionServices.DivisionEdit(division);
+                TempData["SuccessMessage"] = "Divisão editada com sucesso.";
+                return Json(new { stats = "OK" });
+            }
+
+            return Json(new { stats = "ERROR", message = "Não foi possível editar a divisão. Por favor, tente novamente mais tarde!" });
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível editar a divisão.";
+            _logger.LogError("Não foi possível editar a divisão", e.Message);
+            return Json(new { stats = "INVALID", message = "Não foi possível editar a divisão!" });
+        }
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
