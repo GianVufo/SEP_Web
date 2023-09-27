@@ -29,6 +29,7 @@ namespace SEP_Web.Services
             divisionEdit.ModifyDate = DateTime.Now;
 
             divisionEdit.UserAdministratorId = division.UserAdministratorId;
+            divisionEdit.InstituitionId = division.InstituitionId;
 
             _database.Division.Update(divisionEdit);
             await _database.SaveChangesAsync();

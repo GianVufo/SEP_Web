@@ -51,7 +51,7 @@ function RegisterDivision() {
 }
 
 $(document).ready(function () {
-    $("#edit-division-form").submit(function (e) {
+    $("#division-form").submit(function (e) {
         e.preventDefault();
         RegisterDivision();
     });

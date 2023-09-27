@@ -10,7 +10,7 @@
 
         <div class="form-group p-3">
             <label for="fk-instituition" hidden>Órgão: </label>
-            <select class="form-select" name="instituitionId" id="fk-instituition" asp-for="InstituitionId" onfocus="this.size=2" onblur="this.size=1" onchange="this.size=1" required>
+            <select class="form-select" name="instituitionId" id="fk-instituition" asp-for="InstituitionId" onfocus="this.size=2" onchange="this.size=1" onblur="this.size=1" required>
                 <option value="" selected> -- selecione o órgão -- </option>
                 @foreach (var i in await Model.InstituitionsList())
                 {
