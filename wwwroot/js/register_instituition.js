@@ -26,6 +26,9 @@ $(document).ready(function () {
 });
 
 
+
+
+
 function RegisterDivision() {
     let properties = {
         Name: $("#division-name").val(),
@@ -53,6 +56,10 @@ $(document).ready(function () {
         RegisterDivision();
     });
 });
+
+
+
+
 
 function EditDivision() {
     let properties = {

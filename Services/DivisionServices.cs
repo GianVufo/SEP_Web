@@ -44,7 +44,10 @@ namespace SEP_Web.Services
 
         public void DeleteDivision(int id)
         {
-            throw new NotImplementedException();
+            Division deleteDivision = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do órgão");
+
+            _database.Division.Remove(deleteDivision);
+            _database.SaveChanges();
         }
 
         public Division SearchForId(int id)

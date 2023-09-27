@@ -79,6 +79,36 @@ public class DivisionController : Controller
         }
     }
 
+    [HttpPost]
+    public IActionResult Delete(string decision, Division division)
+    {
+
+        try
+        {
+            if (decision == "delete")
+            {
+                if (division.Id != 0)
+                {
+                    _divisionServices.DeleteDivision(division.Id);
+                    TempData["SuccessMessage"] = "Divisão excluída com sucesso.";
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Não foi possível excluir a divisão.";
+            }
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível excluir a divisão.";
+            _logger.LogError("Não foi possível excluir a divisão", e.Message);
+            return RedirectToAction("Index");
+        }
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
