@@ -25,11 +25,20 @@ namespace SEP_Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("InstituitionId")
+                    b.Property<int?>("InstituitionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("UserAdministratorId")
                         .HasColumnType("int");

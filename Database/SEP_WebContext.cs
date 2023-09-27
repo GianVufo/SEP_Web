@@ -4,7 +4,7 @@ using SEP_Web.Models;
 namespace SEP_Web.Database;
 public class SEP_WebContext : DbContext
 {
-    public SEP_WebContext(DbContextOptions<SEP_WebContext> options) : base(options)
+    public SEP_WebContext()
     {
     }
 

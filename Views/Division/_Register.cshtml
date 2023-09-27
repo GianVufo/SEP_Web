@@ -9,7 +9,19 @@
     <form id="division-form">
 
         <div class="form-group p-3">
-            <input type="text" placeholder="Informe a descrição da divisão :" class="form-control" id="division-name" name="name" />
+            <label for="fk-instituition" hidden>Órgão: </label>
+            <select class="form-select" name="instituitionId" id="fk-instituition" asp-for="InstituitionId"  onfocus="this.size=2" onblur="this.size=1" onchange="this.size=1" required>
+                <option value="" selected> --selecione o órgão -- </option>
+                @foreach (var i in await Model.InstituitionsList())
+                {
+                    <option value="@i.Id">@i.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group p-3">
+            <label for="division-name" hidden>Descrição: </label>
+            <input type="text" placeholder="Informe a descrição da divisão :" class="form-control" id="division-name" name="name" asp-for="Name"/>
             <span class="field-validation-error"></span>
         </div>
 

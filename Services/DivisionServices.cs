@@ -12,10 +12,13 @@ namespace SEP_Web.Services
         {
             _database = database;
         }
-        
-        public void DeleteDivision(int id)
+
+        public async Task<Division> RegisterDivision(Division division)
         {
-            throw new NotImplementedException();
+            division.RegisterDate = DateTime.Now;
+            await _database.Division.AddAsync(division);
+            await _database.SaveChangesAsync();
+            return division;
         }
 
         public Task<Division> DivisionEdit(Division division)
@@ -29,7 +32,7 @@ namespace SEP_Web.Services
             return divisions;
         }
 
-        public Task<Division> RegisterDivision(Division division)
+        public void DeleteDivision(int id)
         {
             throw new NotImplementedException();
         }
