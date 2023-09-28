@@ -155,9 +155,9 @@ button.accept-policy {
   justify-content: center;
 }
 
-#division-table tr > td:first-child,
-#division-table tr > td:nth-child(2),
-#division-table tr > td:nth-child(3) {
+.duo-table tr > td:first-child,
+.duo-table tr > td:nth-child(2),
+.duo-table tr > td:nth-child(3) {
   width: 45%;
   white-space: nowrap;
   text-align: left;

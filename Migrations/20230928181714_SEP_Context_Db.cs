@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP_Web.Migrations
 {
-    public partial class SEP_Context : Migration
+    public partial class SEP_Context_Db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -103,8 +103,10 @@ namespace SEP_Web.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    Name = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    RegisterDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DivisionId = table.Column<int>(type: "int", nullable: false),
                     UserAdministratorId = table.Column<int>(type: "int", nullable: false)
                 },
