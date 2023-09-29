@@ -65,16 +65,16 @@ public class SectorController : Controller
 
                 await _sectorServices.SectorEdit(sector);
                 TempData["SuccessMessage"] = "Setor editado com sucesso.";
-                return Json(new { stats = "OK" });
+                return RedirectToAction("Index");
             }
 
-            return Json(new { stats = "ERROR", message = "Não foi possível editar o setor. Por favor, tente novamente mais tarde!" });
+            return View();
         }
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar o setor.";
             _logger.LogError("Não foi possível editar o setor", e.Message);
-            return Json(new { stats = "INVALID", message = "Não foi possível editar o setor!" });
+            return RedirectToAction("Index");
         }
     }
 

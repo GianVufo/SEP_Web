@@ -46,6 +46,6 @@ public class Sector
         using SEP_WebContext _database = new();
 
         Section section = await _database.Section.Where(x => sectorId.SectionId == x.Id).FirstOrDefaultAsync();
-        return section.Name;
+        return section.Name.ToUpper();
     }
 }

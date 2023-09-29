@@ -163,12 +163,28 @@ button.accept-policy {
   text-align: left;
 }
 
-/* Chrome e outros - Ocultar scroll do input type="number"*/
+/* START: Chrome e outros - Ocultar setas do input type="number" */
+
+input[type=number]::-webkit-inner-spin-button { 
+  -webkit-appearance: none;
+  
+}
+input[type=number] { 
+ -moz-appearance: textfield;
+ appearance: textfield;
+
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* END: Chrome e outros - Ocultar setas do input type="number" */
+
+
+/* START: Estilo do input de senha do formuçário de login */
 
 #login-form .form-control:focus {
   border-color: #cccccc;
@@ -187,3 +203,5 @@ input::-webkit-inner-spin-button {
   background-color: #ffff;
   color: #0077cc;
 }
+
+/* END: Estilo do input de senha do formuçário de login */

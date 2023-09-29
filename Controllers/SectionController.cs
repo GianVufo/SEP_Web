@@ -56,6 +56,12 @@ public class SectionController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Section section)
     {
+        
+        /*TODO*/
+        // Validar as entradas e saídas do modelo de exição e 
+        // tratar excessões que são causadas pelo envio de
+        // formulário com campos vazios.
+        
         try
         {
 
@@ -66,16 +72,16 @@ public class SectionController : Controller
 
                 await _sectionServices.SectionEdit(section);
                 TempData["SuccessMessage"] = "Sessão editada com sucesso.";
-                return Json(new { stats = "OK" });
+                return RedirectToAction("Index");
             }
 
-            return Json(new { stats = "ERROR", message = "Não foi possível editar a sessão. Por favor, tente novamente mais tarde!" });
+            return View();
         }
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar a sessão.";
             _logger.LogError("Não foi possível editar a sessão", e.Message);
-            return Json(new { stats = "INVALID", message = "Não foi possível editar a sessão!" });
+            return RedirectToAction("Index");
         }
     }
 

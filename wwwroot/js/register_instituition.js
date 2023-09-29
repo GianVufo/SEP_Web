@@ -61,31 +61,31 @@ $(document).ready(function () {
 
 
 
-function EditDivision() {
-    let properties = {
-        Id: $("#edit-division-id").val(),
-        Name: $("#edit-division-name").val(),
-        InstituitionId: $("#edit-fk-instituition").val(),
-    };
-    $.post("/Division/Edit", properties)
+// function EditDivision() {
+//     let properties = {
+//         Id: $("#edit-division-id").val(),
+//         Name: $("#edit-division-name").val(),
+//         InstituitionId: $("#edit-fk-instituition").val(),
+//     };
+//     $.post("/Division/Edit", properties)
 
-        .done(function (output) {
-            if (output.stats == "OK") {
-                $(location).attr('href', '/Division/Index');
+//         .done(function (output) {
+//             if (output.stats == "OK") {
+//                 $(location).attr('href', '/Division/Index');
 
-            } else if (output.stats == "ERROR") {
-                $(".field-validation-error").html('Informe uma descrição para a divisão!');
-            }
-        })
+//             } else if (output.stats == "ERROR") {
+//                 $(".field-validation-error").html('Informe uma descrição para a divisão!');
+//             }
+//         })
 
-        .fail(function () {
-            alert("Ocorreu um erro!");
-        });
-}
+//         .fail(function () {
+//             alert("Ocorreu um erro!");
+//         });
+// }
 
-$(document).ready(function () {
-    $("#edit-division-form").submit(function (e) {
-        e.preventDefault();
-        EditDivision();
-    });
-});
+// $(document).ready(function () {
+//     $("#edit-division-form").submit(function (e) {
+//         e.preventDefault();
+//         EditDivision();
+//     });
+// });

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SEP_Web.Migrations
 {
-    public partial class Sep_Context : Migration
+    public partial class SEP_Context : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

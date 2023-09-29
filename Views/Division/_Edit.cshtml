@@ -6,7 +6,7 @@
 
 <div>
 
-    <form id="edit-division-form">
+    <form asp-controller="Division" asp-action="Edit" id="edit-division-form">
 
         <input type="hidden" id="edit-division-id" asp-for="Id">
 
@@ -23,7 +23,7 @@
 
         <div class="form-group p-3">
             <label for="edit-division-name" hidden>Descrição: </label>
-            <input type="text" placeholder="Informe a descrição da divisão :" class="form-control" id="edit-division-name" name="name" asp-for="Name"/>
+            <input type="text" placeholder="Informe a descrição da divisão :" class="form-control" id="edit-division-name" name="name" asp-for="Name" required />
             <span class="field-validation-error"></span>
         </div>
 

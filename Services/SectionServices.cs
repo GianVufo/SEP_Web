@@ -23,18 +23,18 @@ public class SectionServices : ISectionServices
 
     public async Task<Section> SectionEdit(Section section)
     {
-        Section sectionnEdit = SearchForId(section.Id) ?? throw new Exception("Houve um erro na atualização da sessão");
+        Section sectionEdit = SearchForId(section.Id) ?? throw new Exception("Houve um erro na atualização da sessão");
 
-        sectionnEdit.Name = section.Name;
-        sectionnEdit.ModifyDate = DateTime.Now;
+        sectionEdit.Name = section.Name;
+        sectionEdit.ModifyDate = DateTime.Now;
 
-        sectionnEdit.UserAdministratorId = section.UserAdministratorId;
-        sectionnEdit.DivisionId = section.DivisionId;
+        sectionEdit.UserAdministratorId = section.UserAdministratorId;
+        sectionEdit.DivisionId = section.DivisionId;
 
-        _database.Section.Update(sectionnEdit);
+        _database.Section.Update(sectionEdit);
         await _database.SaveChangesAsync();
 
-        return sectionnEdit;
+        return sectionEdit;
     }
 
     public async Task<ICollection<Section>> SectionsList()

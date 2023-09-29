@@ -66,16 +66,16 @@ public class DivisionController : Controller
 
                 await _divisionServices.DivisionEdit(division);
                 TempData["SuccessMessage"] = "Divisão editada com sucesso.";
-                return Json(new { stats = "OK" });
+                return RedirectToAction("Index");
             }
 
-            return Json(new { stats = "ERROR", message = "Não foi possível editar a divisão. Por favor, tente novamente mais tarde!" });
+            return View();
         }
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar a divisão.";
             _logger.LogError("Não foi possível editar a divisão", e.Message);
-            return Json(new { stats = "INVALID", message = "Não foi possível editar a divisão!" });
+            return RedirectToAction("Index");
         }
     }
 

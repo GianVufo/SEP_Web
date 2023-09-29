@@ -47,6 +47,6 @@ public class Division
         using SEP_WebContext _database = new();
 
         Instituition instituition = await _database.Instituition.Where(x => divisionId.InstituitionId == x.Id).FirstOrDefaultAsync();
-        return instituition.Name;
+        return instituition.Name.ToUpper();
     }
 }
