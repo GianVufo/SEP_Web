@@ -26,7 +26,7 @@ public class Section
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
     public DateTime? ModifyDate { get; set; }
 
-    [ForeignKey("DivisionId"), Required(ErrorMessage = "Selecione uma sessão!")]
+    [ForeignKey("DivisionId"), Required(ErrorMessage = "Selecione uma divisão!")]
     public int DivisionId { get; set; }
     public Division Division { get; set; }
 

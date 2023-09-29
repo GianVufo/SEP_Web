@@ -169,3 +169,21 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+#login-form .form-control:focus {
+  border-color: #cccccc;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#login-password
+{
+  border-right: none;
+}
+
+#toggle-password
+{
+  background-color: #ffff;
+  color: #0077cc;
+}

@@ -54,14 +54,22 @@
                         @Html.ValidationMessageFor(x => x.LoginName)
 
                         <label for="login-password" class="form-label"></label>
+
                         <div class="input-group">
-                            <a class="btn bg-primary text-light" href="#" id="toggle-password">
-                                <i id="password-icon" class="bi bi-eye-slash-fill"></i>
-                            </a>
+
+                            <span class="input-group-text bg-primary text-light">
+                                <i class="bi bi-lock-fill"></i>
+                            </span>
+
                             <label for="login-password" hidden>Senha:</label>
-                            <input type="password" class="form-control" id="login-password" asp-for="Password"
-                                placeholder="Digite sua senha">
+                            <input type="password" class="form-control" id="login-password" asp-for="Password" placeholder="Digite sua senha">
+
+                            <a title="Exibir Senha" class="input-group-text" href="#" id="toggle-password">
+                                <i title="Exibir Senha" id="password-icon" class="bi bi-eye-slash-fill"></i>
+                            </a>
+
                         </div>
+
                         <span class="field-validation-error">@TempData["InvalidPass"]</span>
                         @Html.ValidationMessageFor(x => x.Password)
 

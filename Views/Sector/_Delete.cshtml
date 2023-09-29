@@ -1,0 +1,31 @@
+@model Sector
+@using SEP_Web.Models
+
+@{
+    ViewData["Title"] = "Excluir Setor";
+}
+
+<!-- Partial View de Exclusão de Órgãos -->
+
+<div>
+
+    <form asp-controller="Sector" asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="Id">
+
+        <div class="p-2 text-justify">
+            <span>Tem certeza que deseja excluir o setor <b>@Model.Name</b>? Essa ação irá exclui-lo de forma <b class="text-danger">permanente</b> e não poderá ser desfeita.</span>
+        </div>
+
+        <div class="modal-footer p-2">
+
+            <button type="submit" class="btn btn-outline-danger btn-md" name="decision" value="delete" title="Excluir - @Model.Name">Excluir</button>
+            <a asp-controller="Sector" asp-action="Index" class="btn btn-outline-secondary btn-md" title="Cancelar">Cancelar</a>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- / Partial View de Exclusão de Órgãos -->

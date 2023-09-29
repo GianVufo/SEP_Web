@@ -11,8 +11,8 @@ using SEP_Web.Database;
 namespace SEP_Web.Migrations
 {
     [DbContext(typeof(SEP_WebContext))]
-    [Migration("20230928181714_SEP_Context_Db")]
-    partial class SEP_Context_Db
+    [Migration("20230928225400_Sep_Context")]
+    partial class Sep_Context
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,8 +119,16 @@ namespace SEP_Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
