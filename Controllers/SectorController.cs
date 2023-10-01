@@ -7,6 +7,7 @@ using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 
+[UserAdminFilter]
 public class SectorController : Controller
 {
     private readonly ILogger<SectorController> _logger;

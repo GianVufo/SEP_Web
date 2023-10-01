@@ -2,81 +2,102 @@
 @using SEP_Web.Models
 @using SEP_Web.Keys
 @{
-    ViewData["Title"] = "Edição de usuário";
+    Layout = "_LayoutAdministrator";
+    ViewData["Title"] = "Cadastro de usuário";
 }
 
 <div class="container">
 
-    <h1 class="text-center mt-5 mb-3">@ViewData["Title"]</h1>
+    <div class="row justify-content-center">
 
-    <form asp-controller="UserAdministrator" asp-action="Edit" method="post">
+        <div class="col-md-8">
 
-        <div class="row">
-
-            <div class="col-md-6 register-col">
-
-                <div class="hidden-id form-group">
-                    <label for="edit-user-id" hidden>ID:</label>
-                    <input type="hidden" class="form-control" id="edit-user-id" name="user-id" asp-for="Id" />
-                </div>
-
-                <div class="form-group">
-                    <label for="edit-user-masp">MASP:</label>
-                    <input type="text" class="form-control" id="edit-user-masp" name="masp" asp-for="Masp" />
-                    @Html.ValidationMessageFor(x => x.Masp)
-                </div>
-
-                <div class="form-group">
-                    <label for="edit-user-name">Nome Completo:</label>
-                    <input type="text" class="form-control" id="edit-user-name" name="Name" asp-for="Name" />
-                    @Html.ValidationMessageFor(x => x.Name)
-                </div>
-
-                <div id="login-input" class="form-group">
-                    <label for="edit-user-login">Login:</label>
-                    <input type="text" class="form-control" id="edit-user-login" name="login" asp-for="Login" />
-                    @Html.ValidationMessageFor(x => x.Login)
-                </div>
-
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="adm-line"></div>
+                <i style="font-size: 10vh; color: #0077cc;" class="bi bi-person-circle"></i>
+                <i style="font-size: 3.5vh; color: #0077cc; margin-top: -6vh; margin-left: 0vh;" class="bi bi-pencil-square"></i>
+                <div class="adm-line"></div>
             </div>
 
-            <div class="col-md-6 register-col">
+            <form class="register-adm-form" asp-controller="UserAdministrator" asp-action="Edit" method="post">
 
-                <div class="form-group">
+                <input type="hidden" value="@UserTypesEnum.User_Admin" class="form-control" id="user-type"
+                    name="userType" asp-for="UserType">
 
-                    <label for="edit-user-email">E-mail:</label>
-                    <input type="text" class="form-control" id="edit-user-email" name="email" asp-for="Email" />
-                    @Html.ValidationMessageFor(x => x.Email)
+                <div class="row">
+                    <div class="col-md-6 adm-col">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="edit-user-masp" name="masp" asp-for="Masp"
+                                placeholder="Nº do MASP">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Masp)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="edit-user-name" name="Name" asp-for="Name"
+                                placeholder="Nome completo" maxlength="50" minlength="10">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="edit-user-login" name="login" asp-for="Login"
+                                placeholder="Nome de login" maxlength="35" minlength="10">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Login)
+                            </div>
 
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="edit-user-email" name="email" asp-for="Email"
+                                placeholder="Informe seu e-mail">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 adm-col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="edit-user-phone" onkeyup="handlePhone(event)" name="phone" asp-for="Phone"
+                                placeholder="(XX) XXXXX-XXXX">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Phone)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="edit-user-position" name="Position"
+                                asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="10">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Position)
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="edit-user-password" name="password"
+                                asp-for="Password" placeholder="Informe uma senha..." maxlength="100" title="Para alterar senha vá até o menu 'Alterar senha'." disabled>
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Password)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="edit-user-confirmPass" name="confirmPass"
+                                placeholder="Confirme sua senha..." maxlength="100" title="Para alterar senha vá até o menu 'Alterar senha'." disabled>
+                            <div class="validate-fields">
+                                <span class="field-validation-error">@TempData["ErrorPass"]</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="edit-user-phone">Telefone:</label>
-                    <input type="text" class="form-control" id="edit-user-phone" name="phone" asp-for="Phone" />
-                    @Html.ValidationMessageFor(x => x.Phone)
-
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                    <button asp-controller="UserAdministrator" asp-action="Index" type="submit" class="btn btn-secondary">Voltar</button>
                 </div>
 
-                <div class="form-group">
-
-                    <label for="edit-user-position">Cargo:</label>
-                    <input type="text" class="form-control" id="edit-user-position" name="Position"
-                        asp-for="Position" />
-                    @Html.ValidationMessageFor(x => x.Position)
-
-                </div>
-
-            </div>
+            </form>
 
         </div>
 
-        <div class="form-group mb-3 mt-3">
-            <button type="submit" class="btn btn-primary mb-3">Editar</button>
-            <a role="button" asp-controller="UserAdministrator" asp-action="Index"
-                class="btn btn-secondary mb-3">Voltar</a>
-        </div>
-
-    </form>
+    </div>
 
 </div>

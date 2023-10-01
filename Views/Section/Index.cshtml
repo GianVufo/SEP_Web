@@ -29,118 +29,137 @@
 </div>
 
 <div class="d-flex justify-content-start w-100">
-    <button title="Cadastrar seção" style="width: 18vh;" type="button" data-bs-toggle="modal" data-bs-target="#section-register" class="btn btn-primary d-flex justify-content-evenly btn-adm-register btn-md mb-3"><i class="bi bi-person-plus-fill"></i> Novo </button>
+    <button title="Cadastrar seção" style="width: 18vh;" type="button" data-bs-toggle="modal"
+        data-bs-target="#section-register"
+        class="btn btn-primary d-flex justify-content-evenly btn-adm-register btn-md mb-3"><i
+            class="bi bi-person-plus-fill"></i> Novo </button>
 </div>
 
-@* Modal de Registro  *@
+@* Modal de Registro *@
 
-    <div class="modal fade" id="section-register" tabindex="-1" role="dialog" aria-labelledby="section-registerTitle" aria-hidden="true">
+<div class="modal fade" id="section-register" tabindex="-1" role="dialog" aria-labelledby="section-registerTitle"
+    aria-hidden="true">
 
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
-            <div class="modal-content">
+        <div class="modal-content">
 
-                <div class="modal-header p-3">
-                    <h3 class="modal-title text-center mb-0 p-0" id="section-registerTitle">Adicionar Seção</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-1">
-                    @await Html.PartialAsync("_Register.cshtml", new Section())
-                </div>
-
+            <div class="modal-header p-3">
+                <h3 class="modal-title text-center mb-0 p-0" id="section-registerTitle">Adicionar Seção</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-1">
+                @await Html.PartialAsync("_Register.cshtml", new Section())
             </div>
 
         </div>
 
     </div>
 
+</div>
+
 @* Fim do Modal de Registro *@
 
-<div class="table-responsive-md">
+<div class="card">
 
-    <table id="section-table" class="table table-style table-bordered table-striped table-light duo-table p-0">
+    <div class="table-responsive-md">
 
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">Descrição</th>
-                <th scope="col">Divisão</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
+        <div class="card-header bg-primary text-light">
+            <span class="fw-bold">@ViewData["Title"] :</span>
+        </div>
 
-        <tbody>
+        <div class="card-body">
 
-            
-            @foreach (Section sections in Model)
-            {
-                var division = new Section().DivisionName(sections);
+            <table id="section-table" class="table table-style table-bordered table-striped table-light duo-table p-0">
 
-                <tr>
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Divisão</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
 
-                    <td scope="row">@sections.Name.ToUpper()</td>
-                    <td scope="row">@await division</td>
+                <tbody>
 
-                    <td scope="row">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" data-bs-toggle="modal"
-                                data-bs-target="#section-edit-@sections.Id"
-                                class="btn btn-sm btn-outline-primary">Editar</button>
-                            <button type="button" data-bs-toggle="modal" asp-route-id="@sections.Id"
-                                data-bs-target="#section-delete-@sections.Id"
-                                class="btn btn-sm btn-outline-danger">Apagar</button>
-                        </div>
 
-                    </td>
+                    @foreach (Section sections in Model)
+                    {
+                        var division = new Section().DivisionName(sections);
 
-                </tr>
+                        <tr>
 
-                @* Modal de Edição *@
+                            <td scope="row">@sections.Name.ToUpper()</td>
+                            <td scope="row">@await division</td>
 
-                    <div class="modal fade" id="section-edit-@sections.Id" tabindex="-1" role="dialog" aria-labelledby="section-editTitle" aria-hidden="true">
-
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-
-                            <div class="modal-content">
-                                <div class="modal-header p-3">
-                                    <h3 class="modal-title text-center mb-0 p-0" id="section-editTitle">Editar seção</h3>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <td scope="row">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#section-edit-@sections.Id"
+                                        class="btn btn-sm btn-outline-primary">Editar</button>
+                                    <button type="button" data-bs-toggle="modal" asp-route-id="@sections.Id"
+                                        data-bs-target="#section-delete-@sections.Id"
+                                        class="btn btn-sm btn-outline-danger">Apagar</button>
                                 </div>
-                                <div class="modal-body p-1">
-                                    @await Html.PartialAsync("_Edit.cshtml", sections)
+
+                            </td>
+
+                        </tr>
+
+                        @* Modal de Edição *@
+
+                        <div class="modal fade" id="section-edit-@sections.Id" tabindex="-1" role="dialog"
+                            aria-labelledby="section-editTitle" aria-hidden="true">
+
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                <div class="modal-content">
+                                    <div class="modal-header p-3">
+                                        <h3 class="modal-title text-center mb-0 p-0" id="section-editTitle">Editar seção
+                                        </h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-1">
+                                        @await Html.PartialAsync("_Edit.cshtml", sections)
+                                    </div>
                                 </div>
+
                             </div>
 
                         </div>
 
-                    </div>
+                        @* Fim do Modal de Edição *@
 
-                @* Fim do Modal de Edição *@
+                        @* Modal de Exclusão *@
 
-                @* Modal de Exclusão *@
+                        <div class="modal fade" id="section-delete-@sections.Id" tabindex="-1" role="dialog"
+                            aria-labelledby="section-delete-Title" aria-hidden="true">
 
-                    <div class="modal fade" id="section-delete-@sections.Id" tabindex="-1" role="dialog" aria-labelledby="section-delete-Title" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
 
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-
-                            <div class="modal-content">
-                                <div class="modal-header p-3">
-                                    <h3 class="modal-title text-danger text-center mb-0 p-0" id="section-delete-Title">Alerta!</h3>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="modal-content">
+                                    <div class="modal-header p-3">
+                                        <h3 class="modal-title text-danger text-center mb-0 p-0" id="section-delete-Title">
+                                            Alerta!</h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-1">
+                                        @await Html.PartialAsync("_Delete.cshtml", sections)
+                                    </div>
                                 </div>
-                                <div class="modal-body p-1">
-                                    @await Html.PartialAsync("_Delete.cshtml", sections)
-                                </div>
+
                             </div>
 
                         </div>
 
-                    </div>
+                        @* Fim do Modal de Exclusão *@
+                    }
 
-                @* Fim do Modal de Exclusão *@
-            }
+                </tbody>
 
-        </tbody>
-
-    </table>
+            </table>
+        </div>
+    </div>
 
 </div>

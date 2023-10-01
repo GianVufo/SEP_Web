@@ -34,7 +34,7 @@ public class UserAdministrator
     public string Email { get; set; }
 
     [StringLength(15), Required(ErrorMessage = "Informe um telefone!")]
-    [RegularExpression(@"^\d{2}\ \d{4}-\d{4}$", ErrorMessage = "O número de telefone é inválido. Tente: XX XXXX-XXXX")]
+    [RegularExpression(@"^\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}$", ErrorMessage = "O número de telefone é inválido. Tente: (XX) XXXXX-XXXX")]
     public string Phone { get; set; }
 
     [Required(ErrorMessage = "Informe seu cargo!")]

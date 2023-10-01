@@ -1,5 +1,5 @@
-﻿$('.table-style').show(function () { 
-    getDatatableClass('.table-style') 
+﻿$('.table-style').show(function () {
+    getDatatableClass('.table-style')
 });
 
 /* função de configuração do plugin data-table e aplicação do plugin de acordo com a classe capturada */
@@ -15,7 +15,7 @@ function getDatatableClass(tableClass) {
             "sInfoFiltered": "(Filtrar de _MAX_ total registros)",
             "sInfoPostFix": "",
             "sInfoThousands": ".",
-            "sLengthMenu": "Mostrar _MENU_ registros por pagina",
+            "sLengthMenu": "Mostrar _MENU_ registros por página",
             "sLoadingRecords": "Carregando...",
             "sProcessing": "Processando...",
             "sZeroRecords": "Nenhum registro encontrado",
@@ -77,3 +77,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+
+/* Phone-Mask */
+const handlePhone = (event) => {
+    let input = event.target
+    input.value = phoneMask(input.value)
+}
+
+const phoneMask = (value) => {
+    if (!value) return ""
+    value = value.replace(/\D/g, '')
+    value = value.replace(/(\d{2})(\d)/, "($1) $2")
+    value = value.replace(/(\d)(\d{4})$/, "$1-$2")
+    return value
+}
+/* Phone-Mask */
