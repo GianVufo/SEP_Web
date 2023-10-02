@@ -1,8 +1,10 @@
-﻿$('.table-style').show(function () {
+﻿
+$('.table-style').show(function () {
+    /* chamada da função que traz o plugin DataTable */
     getDatatableClass('.table-style')
 });
 
-/* função de configuração do plugin data-table e aplicação do plugin de acordo com a classe capturada */
+/* função de configuração do plugin DataTable e aplicação do plugin de acordo com a classe capturada */
 function getDatatableClass(tableClass) {
     $(tableClass).DataTable({
         "ordering": true,

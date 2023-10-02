@@ -7,5 +7,6 @@ public interface IUserAdministratorServices
     Task<UserAdministrator> RegisterUserAdministrator(UserAdministrator users);
     Task<ICollection<UserAdministrator>> AdministratorsList();
     Task<UserAdministrator> AdministratorsEdit(UserAdministrator users);
+    Task<UserAdministrator> ChangePassword(ChangePassword changePassword);
     void DeleteUserAdministrator(int id);
 }

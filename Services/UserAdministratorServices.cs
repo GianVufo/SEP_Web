@@ -46,6 +46,19 @@ public class UserAdministratorServices : IUserAdministratorServices
         return searchUser;
     }
 
+    public async Task<UserAdministrator> ChangePassword(ChangePassword changePassword)
+    {
+        UserAdministrator searchUser = (SearchForId(changePassword.Id)) ??  throw new Exception("Houve um erro na atualização da senha, usuário não encontrado!");
+
+        searchUser.Password = Cryptography.EncryptPassword(changePassword.Password);
+        searchUser.ModifyDate = DateTime.Now;
+
+        _database.Administrator.Update(searchUser);
+        await _database.SaveChangesAsync();
+
+        return searchUser;
+    }
+
     public void DeleteUserAdministrator(int id)
     {
         UserAdministrator foundUser = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do usuário");

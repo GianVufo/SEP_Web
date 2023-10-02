@@ -2,7 +2,6 @@
 @using SEP_Web.Models
 @using SEP_Web.Keys
 @{
-    Layout = "_LayoutAdministrator";
     ViewData["Title"] = "Cadastro de usuário";
 }
 
@@ -89,8 +88,8 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
-                    <button asp-controller="UserAdministrator" asp-action="Index" type="submit" class="btn btn-secondary">Voltar</button>
+                    <button type="submit" class="btn btn-primary">Cadastrar </button>
+                    <button asp-controller="UserAdministrator" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar"><i class="bi bi-arrow-return-left" title="Cancelar"></i></button>
                 </div>
 
             </form>

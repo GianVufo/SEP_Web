@@ -147,6 +147,42 @@ public class UserAdministratorController : Controller
     }
 
     [HttpPost]
+    public async Task<IActionResult> ChangeUserPassword(ChangePassword changePassword)
+    {
+        
+        try
+        {
+            UserAdministrator users = null;
+
+            if (ModelState.IsValid)
+            {
+                if(changePassword.Password != changePassword.ComparePassword)
+                {
+                    return Json(new { stats = "INVALID" });
+                }
+            
+                users = new UserAdministrator()
+                {
+                    Id = changePassword.Id,
+                    Password = changePassword.Password
+                };
+
+                await _usersServices.ChangePassword(changePassword);
+                TempData["SuccessMessage"] = "Senha editada com sucesso.";
+                return Json(new { stats = "OK" });
+            }
+
+            return Json(new { stats = "ERROR"});
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível editar a senha.";
+            _logger.LogError("Não foi possível editar a senha", e.Message);
+            return Json(new { stats = "INVALID", message = "Não foi possível editar a senha!" });
+        }
+    }
+
+    [HttpPost]
     public IActionResult Delete(string decision, UserAdministrator users)
     {
 
