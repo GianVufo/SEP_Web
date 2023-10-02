@@ -11,7 +11,7 @@ using SEP_Web.Database;
 namespace SEP_Web.Migrations
 {
     [DbContext(typeof(SEP_WebContext))]
-    [Migration("20230930114144_SEP_Context")]
+    [Migration("20231002124817_SEP_Context")]
     partial class SEP_Context
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
