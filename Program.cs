@@ -22,6 +22,7 @@ builder.Services.AddDbContext<SEP_WebContext>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<UserAdministrator>();
 builder.Services.AddScoped<IUserAdministratorServices, UserAdministratorServices>();
+builder.Services.AddScoped<IUserEvaluatorServices, UserEvaluatorServices>();
 builder.Services.AddScoped<IInstituitionServices, InstituitionServices>();
 builder.Services.AddScoped<IDivisionServices, DivisionServices>();
 builder.Services.AddScoped<ISectionServices, SectionServices>();

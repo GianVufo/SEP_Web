@@ -8,125 +8,141 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SEP_Web
 build_property.RootNamespace = SEP_Web
-build_property.ProjectDir = c:\Users\Administrador\Desktop\SEP_Web\
+build_property.ProjectDir = C:\Users\Administrador\Desktop\SEP_Web\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\Administrador\Desktop\SEP_Web
+build_property.MSBuildProjectDirectory = C:\Users\Administrador\Desktop\SEP_Web
 build_property._RazorSourceGeneratorDebug = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Division/Index.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Division/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGl2aXNpb25cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Division/_Delete.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Division/_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGl2aXNpb25cX0RlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Division/_Edit.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Division/_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGl2aXNpb25cX0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Division/_Register.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Division/_Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGl2aXNpb25cX1JlZ2lzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Home/Index.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/Index.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdGl0dWl0aW9uXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/_Delete.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdGl0dWl0aW9uXF9EZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/_Edit.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdGl0dWl0aW9uXF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/_Register.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Instituition/_Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5zdGl0dWl0aW9uXF9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Login/Index.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Section/Index.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Section/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdGlvblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Section/_Delete.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Section/_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdGlvblxfRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Section/_Edit.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Section/_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdGlvblxfRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Section/_Register.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Section/_Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdGlvblxfUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Sector/Index.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Sector/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdG9yXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Sector/_Delete.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Sector/_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdG9yXF9EZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Sector/_Edit.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Sector/_Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdG9yXF9FZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Sector/_Register.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Sector/_Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VjdG9yXF9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Shared/Components/Menu/Default.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Shared/Components/Menu/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTWVudVxEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Shared/_Layout.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Shared/_LayoutLoggedOut.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Shared/_LayoutLoggedOut.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRMb2dnZWRPdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/Edit.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluaXN0cmF0b3JcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/Index.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluaXN0cmF0b3JcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/Register.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluaXN0cmF0b3JcUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/_ChangePass.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/_ChangePass.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluaXN0cmF0b3JcX0NoYW5nZVBhc3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/_Delete.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserAdministrator/_Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckFkbWluaXN0cmF0b3JcX0RlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/_ViewImports.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserEvaluator/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckV2YWx1YXRvclxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserEvaluator/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckV2YWx1YXRvclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserEvaluator/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckV2YWx1YXRvclxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrador/Desktop/SEP_Web/Views/UserEvaluator/_Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlckV2YWx1YXRvclxfRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Administrador/Desktop/SEP_Web/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/Administrador/Desktop/SEP_Web/Views/_ViewStart.cshtml]
+[C:/Users/Administrador/Desktop/SEP_Web/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

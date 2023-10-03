@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SEP_Web.Auth;
 using SEP_Web.Keys;
 
 namespace SEP_Web.Models;
@@ -45,14 +46,38 @@ public class UserEvaluator
 
     [Required(ErrorMessage = "Informe o tipo de usuário!")]
     public UserTypesEnum? UserType { get; set; }
+
+    [Required(ErrorMessage = "informe uma data de registro!")]
+    [DataType(DataType.DateTime)]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    public DateTime RegisterDate { get; set; }
+
+    [DataType(DataType.DateTime)]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    public DateTime? ModifyDate { get; set; }
+
+    [ForeignKey("UserAdministratorId"), Required(ErrorMessage = "É necessário que um avaliador esteja atrelado a um administrador!")]
     public int UserAdministratorId { get; set; }
     public UserAdministrator UserAdministrator { get; set; }
+
+    [ForeignKey("InstituitionId"), Required(ErrorMessage = "Selecione um órgão!")]
     public int InstituitionId { get; set; }
     public Instituition Instituition { get; set; }
+
+    [ForeignKey("DivisionId"), Required(ErrorMessage = "Selecione uma divisão!")]
     public int DivisionId { get; set; }
     public Division Division { get; set; }
+
+    [ForeignKey("SectionId"), Required(ErrorMessage = "Selecione uma seção!")]
     public int SectionId { get; set; }
     public Section Section { get; set; }
+
+    [ForeignKey("SectorId"), Required(ErrorMessage = "Selecione um setor!")]
     public int SectorId { get; set; }
     public Sector Sector { get; set; }
+
+    public bool ValidPassword(string pass)
+    {
+        return Cryptography.VerifyPasswordEncrypted(pass, Password);
+    }
 }
