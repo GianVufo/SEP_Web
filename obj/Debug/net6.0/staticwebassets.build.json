@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3PjqpJ+4UoyLAml/wJ8lPLIpQSQQQbPNx+wEv1bSZXw=",
+  "Hash": "guctneUB25cpIN8k4/QB1QdKaqjkV9vy+KiGoyRHTzc=",
   "Source": "SEP_Web",
   "BasePath": "_content/SEP_Web",
   "Mode": "Default",
@@ -168,6 +168,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\division_CRUD.js"
+    },
+    {
+      "Identity": "C:\\Users\\Administrador\\Desktop\\SEP_Web\\wwwroot\\js\\getRelationalKeysEvaluator.js",
+      "SourceId": "SEP_Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Administrador\\Desktop\\SEP_Web\\wwwroot\\",
+      "BasePath": "_content/SEP_Web",
+      "RelativePath": "js/getRelationalKeysEvaluator.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\getRelationalKeysEvaluator.js"
     },
     {
       "Identity": "C:\\Users\\Administrador\\Desktop\\SEP_Web\\wwwroot\\js\\instituition_CRUD.js",

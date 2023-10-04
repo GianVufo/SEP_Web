@@ -203,14 +203,16 @@ namespace SEP_Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("DivisionId")
+                    b.Property<int?>("DivisionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("InstituitionId")
+                    b.Property<int?>("InstituitionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Login")
@@ -247,10 +249,12 @@ namespace SEP_Web.Migrations
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("SectionId")
+                    b.Property<int?>("SectionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("SectorId")
+                    b.Property<int?>("SectorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("UserAdministratorId")

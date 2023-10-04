@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SEP_Web.Auth;
 using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Models;
@@ -12,13 +14,15 @@ public class UserEvaluatorController : Controller
 {
     private readonly ILogger<UserEvaluatorController> _logger;
     private readonly IUserEvaluatorServices _evaluatorServices;
+    private readonly IUserSession _session;
     private readonly SEP_WebContext _database;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, SEP_WebContext database)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IUserSession session, SEP_WebContext database)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
         _database = database;
+        _session = session;
     }
 
     public async Task<IActionResult> Index()
@@ -29,6 +33,12 @@ public class UserEvaluatorController : Controller
 
     public IActionResult Register()
     {
+        List<Instituition> instituitions = _database.Instituition.ToList();
+        if(instituitions != null)
+        {
+            ViewBag.Instituitions = new SelectList(instituitions, "Id", "Name");
+        }
+        
         return View();
     }
 
@@ -39,6 +49,9 @@ public class UserEvaluatorController : Controller
         try{
             if (ModelState.IsValid) // valida o modelo utilizado na requisição
             {
+                UserAdministrator userInSession = _session.SearchUserSession();
+                evaluator.UserAdministratorId = userInSession.Id;
+
                 var fieldsToValidate = new List<(string FieldName, object Value)>
                 {
                     ("Masp", evaluator.Masp),
@@ -73,7 +86,7 @@ public class UserEvaluatorController : Controller
 
             if (string.IsNullOrEmpty(confirmPass))
             {
-                TempData["ErrorPass"] = "Confirme a senha.";
+                TempData["ErrorPass"] = "Confirme a senha!";
                 return View();
             }
 
@@ -84,6 +97,48 @@ public class UserEvaluatorController : Controller
             _logger.LogError("Não foi possível cadsatrar o avaliador", e.Message);
             return RedirectToAction("Index");
         }
+    }
+
+    [HttpGet]
+    public IActionResult GetDivisionsByInstituition(int instituitionId)
+    {
+        var divisions = _database.Division.Where(d => d.InstituitionId == instituitionId).ToList();
+
+        var divisionList = divisions.Select(d => new SelectListItem
+        {
+            Text = d.Name,
+            Value = d.Id.ToString(),
+        });
+
+        return Json(divisionList);
+    }
+
+    [HttpGet]
+    public IActionResult GetSectionsByDivisions(int DivisionId)
+    {
+        var sections = _database.Section.Where(d => d.DivisionId == DivisionId).ToList();
+
+        var sectionList = sections.Select(d => new SelectListItem
+        {
+            Text = d.Name,
+            Value = d.Id.ToString(),
+        });
+
+        return Json(sectionList);
+    }
+
+    [HttpGet]
+    public IActionResult GetSectorsBySections(int SectionId)
+    {
+        var sectors = _database.Sector.Where(d => d.SectionId == SectionId).ToList();
+
+        var sectorList = sectors.Select(d => new SelectListItem
+        {
+            Text = d.Name,
+            Value = d.Id.ToString(),
+        });
+
+        return Json(sectorList);
     }
 
     public IActionResult Edit(int id)

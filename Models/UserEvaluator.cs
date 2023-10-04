@@ -12,23 +12,23 @@ public class UserEvaluator
     [Key, Required(ErrorMessage = "O campo id é obrigatório!")]
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "O campo MASP é obrigatório.")]
-    [Range(111, 999999, ErrorMessage = "Informe um MASP válido")]
+    [Required(ErrorMessage = "O campo MASP é obrigatório!")]
+    [Range(111, 999999, ErrorMessage = "Informe um MASP válido!")]
     public int? Masp { get; set; }
 
-    [Required(ErrorMessage = "Informe o nome completo.")]
-    [MaxLength(50, ErrorMessage = "O nome não pode conter mais de 50 caracteres.")]
-    [MinLength(10, ErrorMessage = "O nome não pode conter menos de 10 caracteres.")]
+    [Required(ErrorMessage = "Informe o nome completo!")]
+    [MaxLength(50, ErrorMessage = "O nome não pode conter mais de 50 caracteres!")]
+    [MinLength(10, ErrorMessage = "O nome não pode conter menos de 10 caracteres!")]
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Informe um nome de login!")]
-    [MaxLength(35, ErrorMessage = "O login não pode conter mais de 35 caracteres.")]
-    [MinLength(10, ErrorMessage = "O login não pode conter menos de 10 caracteres.")]
+    [MaxLength(35, ErrorMessage = "O login não pode conter mais de 35 caracteres!")]
+    [MinLength(10, ErrorMessage = "O login não pode conter menos de 10 caracteres!")]
     public string Login { get; set; }
 
     [Required(ErrorMessage = "Informe uma senha!")]
-    [MaxLength(150, ErrorMessage = "A senha pode conter no máximo 150 caracteres.")]
-    [MinLength(8, ErrorMessage = "A senha deve conter no mínimo 8 caracteres.")]
+    [MaxLength(150, ErrorMessage = "A senha pode conter no máximo 150 caracteres!")]
+    [MinLength(8, ErrorMessage = "A senha deve conter no mínimo 8 caracteres!")]
     public string Password { get; set; }
 
     [Required(ErrorMessage = "Informe um e-mail!")]
@@ -40,8 +40,8 @@ public class UserEvaluator
     public string Phone { get; set; }
 
     [Required(ErrorMessage = "Informe seu cargo!")]
-    [MaxLength(35, ErrorMessage = "O cargo não pode conter mais de 35 caracteres.")]
-    [MinLength(8, ErrorMessage = "O cargo não pode conter menos de 8 caracteres.")]
+    [MaxLength(35, ErrorMessage = "O cargo não pode conter mais de 35 caracteres!")]
+    [MinLength(8, ErrorMessage = "O cargo não pode conter menos de 8 caracteres!")]
     public string Position { get; set; }
 
     [Required(ErrorMessage = "Informe o tipo de usuário!")]
@@ -61,23 +61,24 @@ public class UserEvaluator
     public UserAdministrator UserAdministrator { get; set; }
 
     [ForeignKey("InstituitionId"), Required(ErrorMessage = "Selecione um órgão!")]
-    public int InstituitionId { get; set; }
+    public int? InstituitionId { get; set; }
     public Instituition Instituition { get; set; }
 
     [ForeignKey("DivisionId"), Required(ErrorMessage = "Selecione uma divisão!")]
-    public int DivisionId { get; set; }
+    public int? DivisionId { get; set; }
     public Division Division { get; set; }
 
     [ForeignKey("SectionId"), Required(ErrorMessage = "Selecione uma seção!")]
-    public int SectionId { get; set; }
+    public int? SectionId { get; set; }
     public Section Section { get; set; }
 
     [ForeignKey("SectorId"), Required(ErrorMessage = "Selecione um setor!")]
-    public int SectorId { get; set; }
+    public int? SectorId { get; set; }
     public Sector Sector { get; set; }
 
     public bool ValidPassword(string pass)
     {
         return Cryptography.VerifyPasswordEncrypted(pass, Password);
     }
+
 }

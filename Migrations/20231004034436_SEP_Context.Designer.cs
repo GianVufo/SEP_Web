@@ -11,7 +11,7 @@ using SEP_Web.Database;
 namespace SEP_Web.Migrations
 {
     [DbContext(typeof(SEP_WebContext))]
-    [Migration("20231003000828_SEP_Context")]
+    [Migration("20231004034436_SEP_Context")]
     partial class SEP_Context
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,14 +205,16 @@ namespace SEP_Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("DivisionId")
+                    b.Property<int?>("DivisionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("InstituitionId")
+                    b.Property<int?>("InstituitionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Login")
@@ -223,6 +225,9 @@ namespace SEP_Web.Migrations
                     b.Property<int?>("Masp")
                         .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -243,10 +248,15 @@ namespace SEP_Web.Migrations
                         .HasMaxLength(35)
                         .HasColumnType("varchar(35)");
 
-                    b.Property<int>("SectionId")
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("SectionId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("SectorId")
+                    b.Property<int?>("SectorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("UserAdministratorId")
