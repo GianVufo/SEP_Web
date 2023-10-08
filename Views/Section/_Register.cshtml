@@ -1,5 +1,7 @@
 @model Section
 @using SEP_Web.Models
+@using SEP_Web.Services
+@inject IDivisionServices _divisionServices
 @{
     ViewData["Title"] = "Cadastrar Sessão";
 }
@@ -12,7 +14,7 @@
             <label for="fk-division" hidden>Divisão: </label>
             <select class="form-select" name="divisionId" id="fk-division" asp-for="DivisionId" onfocus="this.size=2" onchange="this.size=1" onblur="this.size=1" required>
                 <option value="" selected> -- selecione a divisão -- </option>
-                @foreach (var i in await Model.DivisionsList())
+                @foreach (var i in await _divisionServices.DivisionsList())
                 {
                     <option value="@i.Id">@i.Name</option>
                 }

@@ -1,5 +1,7 @@
 @model Division
 @using SEP_Web.Models
+@using SEP_Web.Services
+@inject IInstituitionServices _instituitionServices
 @{
     ViewData["Title"] = "Edição de divisão";
 }
@@ -14,7 +16,7 @@
             <label for="edit-fk-instituition" hidden>Órgão: </label>
             <select class="form-select" name="instituitionId" id="edit-fk-instituition" asp-for="InstituitionId" onfocus="this.size=2" onblur="this.size=1" onchange="this.size=1" required>
                 <option value="" selected> -- selecione o órgão -- </option>
-                @foreach (var i in await Model.InstituitionsList())
+                @foreach (var i in await _instituitionServices.InstituitionsList())
                 {
                     <option value="@i.Id">@i.Name</option>
                 }

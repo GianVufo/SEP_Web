@@ -18,9 +18,24 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-clip: border-box;
+  background-attachment: fixed;
   width: 100%;
   height: 100%;
   margin-bottom: 12vh;
+}
+
+table {
+  width: 100%;
+}
+
+table td{
+  color: #7a7a7a;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+  height: 25%;
 }
 
 a.navbar-brand {
@@ -142,29 +157,50 @@ button.accept-policy {
   text-align: left;
 }
 
-#users-table {
-  padding: 1vh;
+#users-table tr > td:first-child,
+#users-table tr > th:first-child{
+  width: 20%;
+  white-space: nowrap;
+  text-align: center;
 }
 
-#users-table tr > td:first-child,
+#users-table tr > td:nth-child(6)
+#users-table tr > th:nth-child(6) {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
 #users-table tr > td:nth-child(2),
 #users-table tr > td:nth-child(3),
 #users-table tr > td:nth-child(4),
-#users-table tr > td:nth-child(5),
-#users-table tr > td:nth-child(6) {
-  width: 100%;
+#users-table tr > td:nth-child(5){
+  width: 98%;
   white-space: nowrap;
   text-align: left;
 }
 
-#users-table tr > td:first-child {
-  width: 1%;
+#evaluator-table tr > td:first-child,
+#evaluator-table tr > th:first-child{
+  width: 20%;
+  white-space: nowrap;
+  text-align: center;
 }
 
-#users-table tr > td:last-child {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#evaluator-table tr > td:nth-child(6)
+#evaluator-table tr > th:nth-child(6) {
+  width: 1%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+#evaluator-table tr > td:nth-child(2),
+#evaluator-table tr > td:nth-child(3),
+#evaluator-table tr > td:nth-child(4),
+#evaluator-table tr > td:nth-child(5){
+  width: 98%;
+  white-space: nowrap;
+  text-align: left;
 }
 
 .duo-table tr > td:first-child,
@@ -265,4 +301,14 @@ input::-webkit-inner-spin-button {
   display:flex; 
   flex-direction:column; 
   justify-content:center;
+}
+
+.sorting::before {
+  color: #0077cc;
+  margin: 1px;
+}
+
+.sorting::after {
+  color: #0077cc;
+  margin: 1px;
 }

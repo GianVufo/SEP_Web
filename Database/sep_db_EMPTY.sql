@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/10/2023 às 02:12
+-- Tempo de geração: 07/10/2023 às 22:16
 -- Versão do servidor: 10.4.27-MariaDB
 -- Versão do PHP: 7.4.33
 
@@ -72,6 +72,8 @@ CREATE TABLE `evaluators` (
   `Phone` longtext NOT NULL,
   `Position` varchar(35) NOT NULL,
   `UserType` int(11) NOT NULL,
+  `RegisterDate` datetime(6) NOT NULL,
+  `ModifyDate` datetime(6) DEFAULT NULL,
   `UserAdministratorId` int(11) NOT NULL,
   `InstituitionId` int(11) NOT NULL,
   `DivisionId` int(11) NOT NULL,
@@ -139,7 +141,7 @@ CREATE TABLE `__efmigrationshistory` (
 --
 
 INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
-('20231003000828_SEP_Context', '6.0.0');
+('20231007201553_SEP_CONTEXT', '6.0.0');
 
 --
 -- Índices para tabelas despejadas

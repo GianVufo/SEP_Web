@@ -33,14 +33,6 @@ public class Sector
     public int UserAdministratorId { get; set; }
     public UserAdministrator UserAdministrator { get; set; }
 
-    public async Task<ICollection<Section>> SectionList()
-    {
-        using SEP_WebContext _database = new();
-        
-        ICollection<Section> lista = await _database.Section.ToListAsync();
-        return lista;
-    }
-
     public async Task<string> SectionName(Sector sectorId)
     {
         using SEP_WebContext _database = new();

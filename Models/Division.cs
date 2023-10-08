@@ -34,14 +34,6 @@ public class Division
     public int UserAdministratorId { get; set; }
     public UserAdministrator UserAdministrator { get; set; }
 
-    public async Task<ICollection<Instituition>> InstituitionsList()
-    {
-        using SEP_WebContext _database = new();
-        
-        ICollection<Instituition> lista = await _database.Instituition.ToListAsync();
-        return lista;
-    }
-
     public async Task<string> InstituitionName(Division divisionId)
     {
         using SEP_WebContext _database = new();

@@ -17,30 +17,30 @@ public class UserEvaluator
     public int? Masp { get; set; }
 
     [Required(ErrorMessage = "Informe o nome completo!")]
-    [MaxLength(50, ErrorMessage = "O nome não pode conter mais de 50 caracteres!")]
+    [StringLength(50), MaxLength(50, ErrorMessage = "O nome não pode conter mais de 50 caracteres!")]
     [MinLength(10, ErrorMessage = "O nome não pode conter menos de 10 caracteres!")]
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Informe um nome de login!")]
-    [MaxLength(35, ErrorMessage = "O login não pode conter mais de 35 caracteres!")]
+    [StringLength(35), MaxLength(35, ErrorMessage = "O login não pode conter mais de 35 caracteres!")]
     [MinLength(10, ErrorMessage = "O login não pode conter menos de 10 caracteres!")]
     public string Login { get; set; }
 
     [Required(ErrorMessage = "Informe uma senha!")]
-    [MaxLength(150, ErrorMessage = "A senha pode conter no máximo 150 caracteres!")]
+    [StringLength(35), MaxLength(150, ErrorMessage = "A senha pode conter no máximo 150 caracteres!")]
     [MinLength(8, ErrorMessage = "A senha deve conter no mínimo 8 caracteres!")]
     public string Password { get; set; }
 
-    [Required(ErrorMessage = "Informe um e-mail!")]
+    [StringLength(100), Required(ErrorMessage = "Informe um e-mail!")]
     [EmailAddress(ErrorMessage = "O e-mail informado é inválido!")]
     public string Email { get; set; }
 
-    [Required(ErrorMessage = "Informe um telefone!")]
-    [RegularExpression(@"^\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}$", ErrorMessage = "O número de telefone é inválido. Tente: XX XXXX-XXXX")]
+    [StringLength(15), Required(ErrorMessage = "Informe um telefone!")]
+    [RegularExpression(@"^\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}$", ErrorMessage = "O número de telefone é inválido. Tente: (XX) XXXXX-XXXX")]
     public string Phone { get; set; }
 
     [Required(ErrorMessage = "Informe seu cargo!")]
-    [MaxLength(35, ErrorMessage = "O cargo não pode conter mais de 35 caracteres!")]
+    [StringLength(35), MaxLength(35, ErrorMessage = "O cargo não pode conter mais de 35 caracteres!")]
     [MinLength(8, ErrorMessage = "O cargo não pode conter menos de 8 caracteres!")]
     public string Position { get; set; }
 

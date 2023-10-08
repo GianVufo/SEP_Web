@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/10/2023 às 02:17
+-- Tempo de geração: 07/10/2023 às 22:46
 -- Versão do servidor: 10.4.27-MariaDB
 -- Versão do PHP: 7.4.33
 
@@ -46,9 +46,10 @@ CREATE TABLE `administrators` (
 --
 
 INSERT INTO `administrators` (`Id`, `Masp`, `Name`, `Login`, `Password`, `Email`, `Phone`, `Position`, `UserType`, `RegisterDate`, `ModifyDate`) VALUES
-(1, 14205, 'Gianluca Vialli Ribeiro Vieira', 'gianluca.vialli', '$2a$11$xuKD7jOEbn78QYKqIio4DuyzAOJid2MuO9x1Wt5DoExKjEDRqGa7C', 'gianluca19993m@gmail.com', '38 8808-7655', 'Técnico em Informática', 1, '2023-09-24 16:12:35.870940', NULL),
-(2, 28405, 'Anna Caroline Ribeiro Vieira', 'anna.ribeiro', '$2a$11$DDH7ntuZ.SSA4x6ik5jg7.G1kLW08V5nSjPwtGGi/M4vwwxYOlU0C', 'anna@gmail.com', '38 3754-8888', 'Secretária', 1, '2023-09-24 16:14:02.332280', NULL),
-(3, 40852, 'Amilton Vieira de Souza', 'amilton.vieira', '$2a$11$DzOQwmCK/5gmDeqJPoYEMOuYdkJEeGub94KjVNjOvIsv4TPO/tyUa', 'amilton@gmail.com', '38 8863-3555', 'Servente Escolar', 1, '2023-09-24 16:16:16.872747', '2023-09-24 16:23:32.923179');
+(1, 14205, 'Gianluca Vialli Ribeiro Vieira da Silva Gonçalves', 'gianluca.vialli', '$2a$11$xuKD7jOEbn78QYKqIio4DuyzAOJid2MuO9x1Wt5DoExKjEDRqGa7C', 'gianluca19993m@gmail.com', '(38) 98808-7655', 'Técnico em Informática', 1, '2023-09-24 16:12:35.870940', NULL),
+(2, 28405, 'Anna Caroline Ribeiro Vieira', 'anna.ribeiro', '$2a$11$DDH7ntuZ.SSA4x6ik5jg7.G1kLW08V5nSjPwtGGi/M4vwwxYOlU0C', 'anna@gmail.com', '(38) 98473-2120', 'Secretária', 1, '2023-09-24 16:14:02.332280', NULL),
+(3, 40852, 'Amilton Vieira de Souza', 'amilton.vieira', '$2a$11$DzOQwmCK/5gmDeqJPoYEMOuYdkJEeGub94KjVNjOvIsv4TPO/tyUa', 'amilton@gmail.com', '(38) 98426-3654', 'Servente Escolar', 1, '2023-09-24 16:16:16.872747', NULL),
+(4, 27406, 'André gomes Soares', 'andre.soares', '$2a$11$OXHXVrdczPq7ieBZr5rTZOcRdOKs6Yvs/xJLiu8m0xZ6LF.kqvKY.', 'andre@gmail.com', '(38) 95864-1006', 'Técnico em Informática', 1, '2023-10-07 17:35:51.175619', NULL);
 
 -- --------------------------------------------------------
 
@@ -153,6 +154,8 @@ CREATE TABLE `evaluators` (
   `Phone` longtext NOT NULL,
   `Position` varchar(35) NOT NULL,
   `UserType` int(11) NOT NULL,
+  `RegisterDate` datetime(6) NOT NULL,
+  `ModifyDate` datetime(6) DEFAULT NULL,
   `UserAdministratorId` int(11) NOT NULL,
   `InstituitionId` int(11) NOT NULL,
   `DivisionId` int(11) NOT NULL,
@@ -441,7 +444,7 @@ CREATE TABLE `__efmigrationshistory` (
 --
 
 INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
-('20231003000828_SEP_Context', '6.0.0');
+('20231007201553_SEP_CONTEXT', '6.0.0');
 
 --
 -- Índices para tabelas despejadas
@@ -509,7 +512,7 @@ ALTER TABLE `__efmigrationshistory`
 -- AUTO_INCREMENT de tabela `administrators`
 --
 ALTER TABLE `administrators`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `divisions`

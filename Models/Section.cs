@@ -34,14 +34,6 @@ public class Section
     public int UserAdministratorId { get; set; }
     public UserAdministrator UserAdministrator { get; set; }
 
-    public async Task<ICollection<Division>> DivisionsList()
-    {
-        using SEP_WebContext _database = new();
-        
-        ICollection<Division> lista = await _database.Division.ToListAsync();
-        return lista;
-    }
-
     public async Task<string> DivisionName(Section sectionId)
     {
         using SEP_WebContext _database = new();

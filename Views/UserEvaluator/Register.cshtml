@@ -1,6 +1,8 @@
 @model UserEvaluator
 @using SEP_Web.Models
+@using SEP_Web.Services
 @using SEP_Web.Keys
+@inject IInstituitionServices _instituitionServices
 @{
     ViewData["Title"] = "Cadastro de avaliador";
 }
@@ -91,7 +93,7 @@
                             <input type="password" class="form-control" id="evaluator-confirmPass" name="confirmPass"
                                 placeholder="Confirme sua senha" maxlength="100">
                             <div class="validate-fields">
-                                <span class="field-validation-error">@TempData["ErrorEvaluatorPass"]</span>
+                                <span class="field-validation-error">@TempData["ErrorPass"]</span>
                             </div>
                         </div>
 
@@ -103,8 +105,16 @@
 
                         <div class="form-group">
 
-                            @Html.DropDownListFor(model => model.InstituitionId, ViewBag.Instituitions as SelectList, "-- selecione o órgão --", new { @class = "form-select w-100", @id = "evaluator-instituition" })
-                            @Html.ValidationMessageFor(x => x.InstituitionId)
+                            <select class="form-select" name="instituitionId" id="evaluator-instituition" autocomplete="off" asp-for="InstituitionId">
+                                <option value=""> -- selecione o ógão -- </option>
+                                @foreach (var i in await _instituitionServices.InstituitionsList())
+                                {
+                                    <option value="@i.Id">@i.Name</option>
+                                }
+                            </select>
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.InstituitionId)
+                            </div>
 
                         </div>
 
@@ -114,8 +124,10 @@
 
                         <div class="form-group">
 
-                            @Html.DropDownListFor(model => model.DivisionId, Enumerable.Empty<SelectListItem>(), "-- selecione uma divisão --", new { @class = "form-select w-100", @id = "evaluator-division" })
-                            @Html.ValidationMessageFor(x => x.DivisionId)
+                            @Html.DropDownListFor(model => model.DivisionId, Enumerable.Empty<SelectListItem>(), "-- selecione a divisão --", new { @class = "form-select w-100", @id = "evaluator-division" })
+                                <div class="validate-fields">
+                                    @Html.ValidationMessageFor(x => x.DivisionId)
+                                </div>
                         </div>
                         
                     </div>
@@ -124,8 +136,10 @@
 
                         <div class="form-group">
 
-                            @Html.DropDownListFor(model => model.SectionId, Enumerable.Empty<SelectListItem>(), "-- selecione uma seção --", new { @class = "form-select w-100", @id = "evaluator-section" })
-                            @Html.ValidationMessageFor(x => x.SectionId)
+                            @Html.DropDownListFor(model => model.SectionId, Enumerable.Empty<SelectListItem>(), "-- selecione a seção --", new { @class = "form-select w-100", @id = "evaluator-section" })
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.SectionId)
+                            </div>
 
                         </div>
                         
@@ -135,8 +149,10 @@
 
                         <div class="form-group">
 
-                            @Html.DropDownListFor(model => model.SectorId, Enumerable.Empty<SelectListItem>(), "-- selecione um setor --", new { @class = "form-select w-100", @id = "evaluator-sector" })
-                            @Html.ValidationMessageFor(x => x.SectorId)
+                            @Html.DropDownListFor(model => model.SectorId, Enumerable.Empty<SelectListItem>(), "-- selecione o setor --", new { @class = "form-select w-100", @id = "evaluator-sector" })
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.SectorId)
+                            </div>
 
                         </div>
                         

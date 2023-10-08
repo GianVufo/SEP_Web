@@ -1,5 +1,7 @@
 @model Sector
 @using SEP_Web.Models
+@using SEP_Web.Services
+@inject ISectionServices _sectionServices
 @{
     ViewData["Title"] = "Editar Setor";
 }
@@ -14,7 +16,7 @@
             <label for="edit-fk-section" hidden>Sessão: </label>
             <select class="form-select" name="sectionId" id="edit-fk-section" asp-for="SectionId" onfocus="this.size=2" onchange="this.size=1" onblur="this.size=1" required>
                 <option value="" selected> -- selecione a sessão -- </option>
-                @foreach (var i in await Model.SectionList())
+                @foreach (var i in await _sectionServices.SectionsList())
                 {
                     <option value="@i.Id">@i.Name</option>
                 }

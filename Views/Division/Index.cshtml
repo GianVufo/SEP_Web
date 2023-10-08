@@ -70,9 +70,9 @@
 
         <div class="card-body">
 
-            <table id="division-table" class="table table-style table-bordered table-striped table-light duo-table p-0">
+            <table id="division-table" class="table table-sm table-bordered table-striped table-light duo-table table-style p-0">
 
-                <thead class="table-dark">
+                <thead class="table-light bg-danger border-light text-primary">
                     <tr>
                         <th scope="col">Descrição</th>
                         <th scope="col">Órgão</th>
@@ -87,7 +87,7 @@
                     {
                         var instituition = new Division().InstituitionName(division);
 
-                        <tr>
+                        <tr class="table-light border-light">
 
                             <td scope="row">@division.Name.ToUpper()</td>
                             <td scope="row">@await instituition</td>

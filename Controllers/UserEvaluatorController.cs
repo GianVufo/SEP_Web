@@ -33,13 +33,49 @@ public class UserEvaluatorController : Controller
 
     public IActionResult Register()
     {
-        List<Instituition> instituitions = _database.Instituition.ToList();
-        if(instituitions != null)
-        {
-            ViewBag.Instituitions = new SelectList(instituitions, "Id", "Name");
-        }
-        
         return View();
+    }
+
+    [HttpGet]
+    public IActionResult GetDivisionsByInstituition(int instituitionId)
+    {
+        var divisions = _database.Division.Where(d => d.InstituitionId == instituitionId).ToList();
+
+        var divisionList = divisions.Select(d => new SelectListItem
+        {
+            Text = d.Name,
+            Value = d.Id.ToString(),
+        });
+
+        return Json(divisionList);
+    }
+
+    [HttpGet]
+    public IActionResult GetSectionsByDivisions(int DivisionId)
+    {
+        var sections = _database.Section.Where(d => d.DivisionId == DivisionId).ToList();
+
+        var sectionList = sections.Select(d => new SelectListItem
+        {
+            Text = d.Name,
+            Value = d.Id.ToString(),
+        });
+
+        return Json(sectionList);
+    }
+
+    [HttpGet]
+    public IActionResult GetSectorsBySections(int SectionId)
+    {
+        var sectors = _database.Sector.Where(d => d.SectionId == SectionId).ToList();
+
+        var sectorList = sectors.Select(d => new SelectListItem
+        {
+            Text = d.Name,
+            Value = d.Id.ToString(),
+        });
+
+        return Json(sectorList);
     }
 
     [HttpPost]
@@ -90,7 +126,7 @@ public class UserEvaluatorController : Controller
                 return View();
             }
 
-            return View(evaluator);
+            return View();
         }
         catch (Exception e)
         {
@@ -98,125 +134,6 @@ public class UserEvaluatorController : Controller
             return RedirectToAction("Index");
         }
     }
-
-    [HttpGet]
-    public IActionResult GetDivisionsByInstituition(int instituitionId)
-    {
-        var divisions = _database.Division.Where(d => d.InstituitionId == instituitionId).ToList();
-
-        var divisionList = divisions.Select(d => new SelectListItem
-        {
-            Text = d.Name,
-            Value = d.Id.ToString(),
-        });
-
-        return Json(divisionList);
-    }
-
-    [HttpGet]
-    public IActionResult GetSectionsByDivisions(int DivisionId)
-    {
-        var sections = _database.Section.Where(d => d.DivisionId == DivisionId).ToList();
-
-        var sectionList = sections.Select(d => new SelectListItem
-        {
-            Text = d.Name,
-            Value = d.Id.ToString(),
-        });
-
-        return Json(sectionList);
-    }
-
-    [HttpGet]
-    public IActionResult GetSectorsBySections(int SectionId)
-    {
-        var sectors = _database.Sector.Where(d => d.SectionId == SectionId).ToList();
-
-        var sectorList = sectors.Select(d => new SelectListItem
-        {
-            Text = d.Name,
-            Value = d.Id.ToString(),
-        });
-
-        return Json(sectorList);
-    }
-
-    public IActionResult Edit(int id)
-    {
-        UserEvaluator evaluator = _evaluatorServices.SearchForId(id);
-        return View(evaluator);
-    }
-
-    // [HttpPost]
-    // public async Task<IActionResult> Edit(ModifyAdministrator modifyAdministrator)
-    // {
-    //     try
-    //     {
-    //         UserAdministrator users = null;
-
-    //         if (ModelState.IsValid)
-    //         {
-    //             users = new UserAdministrator()
-    //             {
-    //                 Id = modifyAdministrator.Id,
-    //                 Masp = modifyAdministrator.Masp,
-    //                 Name = modifyAdministrator.Name,
-    //                 Login = modifyAdministrator.Login,
-    //                 Email = modifyAdministrator.Email,
-    //                 Phone = modifyAdministrator.Phone,
-    //                 Position = modifyAdministrator.Position,
-    //             };
-
-    //             await _usersServices.AdministratorsEdit(users); // Chamada do método que realiza a edição de um usuário a pós as validações serem correspondidas
-    //             TempData["SuccessMessage"] = "Usuário editado com sucesso.";
-    //             return RedirectToAction("Index");
-    //         }
-
-    //         return View(users);
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         TempData["ErrorMessage"] = "Não foi possível editar o usuário.";
-    //         _logger.LogError("Não foi possível editar o usuário", e.Message);
-    //         return RedirectToAction("Index");
-    //     }
-    // }
-
-    // [HttpPost]
-    // public async Task<IActionResult> ChangeUserPassword(ChangePassword changePassword)
-    // {
-        
-    //     try
-    //     {
-    //         UserAdministrator users = null;
-
-    //         if (ModelState.IsValid)
-    //         {
-    //             if(changePassword.Password != changePassword.ComparePassword)
-    //             {
-    //                 return Json(new { stats = "INVALID" });
-    //             }
-            
-    //             users = new UserAdministrator()
-    //             {
-    //                 Id = changePassword.Id,
-    //                 Password = changePassword.Password
-    //             };
-
-    //             await _usersServices.ChangePassword(changePassword);
-    //             TempData["SuccessMessage"] = "Senha editada com sucesso.";
-    //             return Json(new { stats = "OK" });
-    //         }
-
-    //         return Json(new { stats = "ERROR"});
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         TempData["ErrorMessage"] = "Não foi possível editar a senha.";
-    //         _logger.LogError("Não foi possível editar a senha", e.Message);
-    //         return Json(new { stats = "INVALID", message = "Não foi possível editar a senha!" });
-    //     }
-    // }
 
     [HttpPost]
     public IActionResult Delete(string decision, UserEvaluator evaluator)
