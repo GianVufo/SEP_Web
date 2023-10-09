@@ -14,10 +14,10 @@ public class ValidationUsers : IValidationUsers
 
     public async Task<bool> VerifyIfFieldExistsInBothUsersTable(string fieldName, object value)
     {
-        bool UsersAdministrators = await _database.Administrator.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
+        bool usersAdministrators = await _database.Administrator.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
         bool usersEvaluators = await _database.Evaluator.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
 
-        return UsersAdministrators || usersEvaluators;
+        return usersAdministrators || usersEvaluators;
     }
 
     public bool ValidatePassword(string pass, string confirmPass, Controller controller)
