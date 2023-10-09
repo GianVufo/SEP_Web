@@ -59,6 +59,13 @@ public class UserAdministratorServices : IUserAdministratorServices
         return searchUser;
     }
 
+    public bool IsFieldChanged(UserAdministrator existingUser, string fieldName, object newValue)
+    {
+        // Verifique se o valor do campo no usuário existente é diferente do novo valor (considerando nulos).
+        var existingValue = existingUser.GetType().GetProperty(fieldName).GetValue(existingUser);
+        return !object.Equals(existingValue, newValue);
+    }
+
     public void DeleteUserAdministrator(int id)
     {
         UserAdministrator foundUser = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do usuário");

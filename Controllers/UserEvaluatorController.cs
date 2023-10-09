@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SEP_Web.Auth;
 using SEP_Web.Database;
 using SEP_Web.Filters;
+using SEP_Web.Helper.Validations;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -14,15 +15,17 @@ public class UserEvaluatorController : Controller
 {
     private readonly ILogger<UserEvaluatorController> _logger;
     private readonly IUserEvaluatorServices _evaluatorServices;
+    private readonly IValidationUsers _validation;
     private readonly IUserSession _session;
     private readonly SEP_WebContext _database;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IUserSession session, SEP_WebContext database)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IValidationUsers validation, IUserSession session, SEP_WebContext database)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
         _database = database;
         _session = session;
+        _validation = validation;
     }
 
     public async Task<IActionResult> Index()
@@ -99,7 +102,7 @@ public class UserEvaluatorController : Controller
 
                 foreach (var (fieldName, value) in fieldsToValidate)
                 {
-                    if (await FieldExists(fieldName, value))
+                    if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
                     {
                         ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso.");
                     }
@@ -110,7 +113,7 @@ public class UserEvaluatorController : Controller
                     return View(evaluator);
                 }
 
-                if (!CheckPassword(evaluator.Password, confirmPass))
+                if (!_validation.ValidatePassword(evaluator.Password, confirmPass, this))
                 {
                     return View();
                 }
@@ -164,22 +167,6 @@ public class UserEvaluatorController : Controller
             return RedirectToAction("Index");
         }
 
-    }
-
-    private async Task<bool> FieldExists(string fieldName, object value)
-    {
-        return await _database.Evaluator.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
-    }
-
-    private bool CheckPassword(string pass, string confirmPass)
-    {
-        if (confirmPass != pass)
-        {
-            TempData["ErrorPass"] = "As senhas são diferentes.";
-            return false;
-        }
-
-        return true;
     }
 
 }

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SEP_Web.Auth;
 using SEP_Web.Database;
 using SEP_Web.Filters;
+using SEP_Web.Helper.Validations;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -12,13 +14,15 @@ public class UserAdministratorController : Controller
 {
     private readonly ILogger<UserAdministratorController> _logger;
     private readonly IUserAdministratorServices _usersServices;
+    private readonly IValidationUsers _validation;
     private readonly SEP_WebContext _database;
 
-    public UserAdministratorController(ILogger<UserAdministratorController> logger, IUserAdministratorServices usersServices, SEP_WebContext databse)
+    public UserAdministratorController(ILogger<UserAdministratorController> logger, IUserAdministratorServices usersServices, IValidationUsers validation, SEP_WebContext databse)
     {
         _logger = logger;
         _usersServices = usersServices;
         _database = databse;
+        _validation = validation;
     }
 
     /* TODO: */
@@ -62,8 +66,8 @@ public class UserAdministratorController : Controller
 
                 foreach (var (fieldName, value) in fieldsToValidate)
                 {
-                    /* Bloco de repetição responsável por chamar o método FieldExists que validará os campos e evitará a duplicação de registros.*/
-                    if (await FieldExists(fieldName, value))
+                    /* Bloco de repetição responsável por chamar o método VerifyIfFieldExistsInBothUsersTable que validará os campos e evitará a duplicação de registros.*/
+                    if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
                     {
                         ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso."); // Retorna a mensagem de erro ao usuário para cada campo que não tenha cumprido as exigências.
                     }
@@ -74,7 +78,7 @@ public class UserAdministratorController : Controller
                     return View(users); // Exibe a view com as mensagens de erro de cada campo preenchido de forma indevida.
                 }
 
-                if (!CheckPassword(users.Password, confirmPass))
+                if (!_validation.ValidatePassword(users.Password, confirmPass, this))
                 {
                     return View();
                 }
@@ -116,11 +120,41 @@ public class UserAdministratorController : Controller
         /* ActionResult Responsável por realizar o post dos dados de usuário a serem atualizados. Assim como no registro de usuários o método é envolvido em um bloco try catch para tratar excessões e fas uma validação do modelo de dados a fim de verificar se estão preenchidos corretamente. */
         try
         {
-            UserAdministrator users = null;
+            UserAdministrator existingUser  = _usersServices.SearchForId(modifyAdministrator.Id);
 
             if (ModelState.IsValid)
             {
-                users = new UserAdministrator()
+
+                var fieldsToValidate = new List<(string FieldName, object Value)>
+                {
+                    /* Com o modelo validado uma variável é criada recebendo uma lista como valor. a lista contêm parâmetros que serão usados na validação dos dados do usuário a fim de evitar a duplicação de dados obrigatótios no registro de usuários. A validação utilizará o nome do atributo a ser validado e terá também o valor do mesmo para que a validação seja efetiva.*/
+
+                    ("Masp", modifyAdministrator.Masp),
+                    ("Name", modifyAdministrator.Name),
+                    ("Login", modifyAdministrator.Login),
+                    ("Email", modifyAdministrator.Email),
+                    ("Phone", modifyAdministrator.Phone),
+                };
+
+                foreach (var (fieldName, value) in fieldsToValidate)
+                {
+                    if (_usersServices.IsFieldChanged(existingUser, fieldName, value))
+                    {
+
+                        /* Bloco de repetição responsável por chamar o método VerifyIfFieldExistsInBothUsersTable que validará os campos e evitará a duplicação de registros.*/
+                        if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
+                        {
+                            ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso."); // Retorna a mensagem de erro ao usuário para cada campo que não tenha cumprido as exigências.
+                        }
+                    }
+                }
+
+                if (ModelState.ErrorCount > 0)
+                {
+                    return View(existingUser); // Exibe a view com as mensagens de erro de cada campo preenchido de forma indevida.
+                }
+
+                existingUser = new UserAdministrator()
                 {
                     Id = modifyAdministrator.Id,
                     Masp = modifyAdministrator.Masp,
@@ -131,12 +165,12 @@ public class UserAdministratorController : Controller
                     Position = modifyAdministrator.Position,
                 };
 
-                await _usersServices.AdministratorsEdit(users); // Chamada do método que realiza a edição de um usuário a pós as validações serem correspondidas
+                await _usersServices.AdministratorsEdit(existingUser); // Chamada do método que realiza a edição de um usuário a pós as validações serem correspondidas
                 TempData["SuccessMessage"] = "Usuário editado com sucesso.";
                 return RedirectToAction("Index");
             }
 
-            return View(users);
+            return View(existingUser);
         }
         catch (Exception e)
         {
@@ -149,6 +183,9 @@ public class UserAdministratorController : Controller
     [HttpPost]
     public async Task<IActionResult> ChangeUserPassword(ChangePassword changePassword)
     {
+        /* TODO */
+
+        // Corrigir as validações ao realizar a tentativa de alterar senha
         
         try
         {
@@ -211,22 +248,6 @@ public class UserAdministratorController : Controller
             return RedirectToAction("Index");
         }
 
-    }
-
-    private async Task<bool> FieldExists(string fieldName, object value)
-    {
-        return await _database.Administrator.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
-    }
-
-    private bool CheckPassword(string pass, string confirmPass)
-    {
-        if (confirmPass != pass)
-        {
-            TempData["ErrorPass"] = "As senhas são diferentes.";
-            return false;
-        }
-
-        return true;
     }
 
 }

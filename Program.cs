@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using SEP_Web.Helper.Validations;
 using SEP_Web.Database;
 using SEP_Web.Auth;
 using SEP_Web.Models;
@@ -23,6 +24,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<UserAdministrator>();
 builder.Services.AddScoped<IUserAdministratorServices, UserAdministratorServices>();
 builder.Services.AddScoped<IUserEvaluatorServices, UserEvaluatorServices>();
+builder.Services.AddScoped<IValidationUsers, ValidationUsers>();
 builder.Services.AddScoped<IInstituitionServices, InstituitionServices>();
 builder.Services.AddScoped<IDivisionServices, DivisionServices>();
 builder.Services.AddScoped<ISectionServices, SectionServices>();

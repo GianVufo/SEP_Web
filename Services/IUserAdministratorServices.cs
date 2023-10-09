@@ -8,5 +8,6 @@ public interface IUserAdministratorServices
     Task<ICollection<UserAdministrator>> AdministratorsList();
     Task<UserAdministrator> AdministratorsEdit(UserAdministrator users);
     Task<UserAdministrator> ChangePassword(ChangePassword changePassword);
+    bool IsFieldChanged(UserAdministrator existingUser, string fieldName, object newValue);
     void DeleteUserAdministrator(int id);
 }
