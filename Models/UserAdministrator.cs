@@ -1,32 +1,32 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SEP_Web.Auth;
 using SEP_Web.Keys;
 
 namespace SEP_Web.Models;
+
 [Table("Administrators")]
 public class UserAdministrator
 {
     [Key, Required(ErrorMessage = "O campo id é obrigatório!")]
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "O campo MASP é obrigatório.")]
-    [Range(111, 999999, ErrorMessage = "Informe um MASP válido")]
+    [Required(ErrorMessage = "O campo MASP é obrigatório!")]
+    [Range(111, 999999, ErrorMessage = "Informe um MASP válido.")]
     public int? Masp { get; set; }
 
-    [Required(ErrorMessage = "Informe o nome completo.")]
-    [StringLength(50), MaxLength(50, ErrorMessage = "O nome não pode conter mais de 50 caracteres.")]
-    [MinLength(10, ErrorMessage = "O nome não pode conter menos de 10 caracteres.")]
+    [Required(ErrorMessage = "O campo nome é obrigatório!")]
+    [StringLength(50), MaxLength(50, ErrorMessage = "O nome não pode conter mais de 50 caractéres.")]
+    [MinLength(10, ErrorMessage = "O nome não pode conter menos de 10 caractéres.")]
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Informe um nome de login!")]
-    [StringLength(35), MaxLength(35, ErrorMessage = "O login não pode conter mais de 35 caracteres.")]
-    [MinLength(10, ErrorMessage = "O login não pode conter menos de 10 caracteres.")]
+    [StringLength(35), MaxLength(35, ErrorMessage = "O login não pode conter mais de 35 caractéres.")]
+    [MinLength(10, ErrorMessage = "O login não pode conter menos de 10 caractéres.")]
     public string Login { get; set; }
 
     [Required(ErrorMessage = "Informe uma senha!")]
-    [StringLength(150), MaxLength(150, ErrorMessage = "A senha pode conter no máximo 150 caracteres.")]
-    [MinLength(8, ErrorMessage = "A senha deve conter no mínimo 8 caracteres.")]
+    [StringLength(150), MaxLength(150, ErrorMessage = "A senha pode conter no máximo 150 caractéres.")]
+    [MinLength(8, ErrorMessage = "A senha deve conter no mínimo 8 caractéres.")]
     public string Password { get; set; }
 
     [StringLength(100), Required(ErrorMessage = "Informe um e-mail!")]
@@ -38,8 +38,8 @@ public class UserAdministrator
     public string Phone { get; set; }
 
     [Required(ErrorMessage = "Informe seu cargo!")]
-    [StringLength(35), MaxLength(35, ErrorMessage = "O cargo não pode conter mais de 35 caracteres.")]
-    [MinLength(8, ErrorMessage = "O cargo não pode conter menos de 8 caracteres.")]
+    [StringLength(35), MaxLength(35, ErrorMessage = "O cargo não pode conter mais de 35 caractéres.")]
+    [MinLength(8, ErrorMessage = "O cargo não pode conter menos de 8 caractéres.")]
     public string Position { get; set; }
 
     [Required(ErrorMessage = "Informe o tipo de usuário!")]
@@ -53,9 +53,4 @@ public class UserAdministrator
     [DataType(DataType.DateTime)]
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
     public DateTime? ModifyDate { get; set; }
-
-    public bool ValidPassword(string pass)
-    {
-        return Cryptography.VerifyPasswordEncrypted(pass, Password);
-    }
 }

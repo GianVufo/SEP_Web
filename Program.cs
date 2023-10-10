@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using SEP_Web.Helper.Validations;
 using SEP_Web.Database;
-using SEP_Web.Auth;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -29,7 +29,7 @@ builder.Services.AddScoped<IInstituitionServices, InstituitionServices>();
 builder.Services.AddScoped<IDivisionServices, DivisionServices>();
 builder.Services.AddScoped<ISectionServices, SectionServices>();
 builder.Services.AddScoped<ISectorServices, SectorServices>();
-builder.Services.AddScoped<IUserSession, Session>();
+builder.Services.AddScoped<IUserSession, UserSession>();
 
 builder.Services.AddMvc();
 
@@ -44,7 +44,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-var logFac = app.Services.GetService<ILoggerFactory>(); // call to the ILoggerFactory service, enabling.
+var logFac = app.Services.GetService<ILoggerFactory>(); // call to ILoggerFactory service, enabling.
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

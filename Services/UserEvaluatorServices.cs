@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SEP_Web.Auth;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Database;
 using SEP_Web.Models;
 

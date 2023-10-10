@@ -1,6 +1,6 @@
 using SEP_Web.Models;
 
-namespace SEP_Web.Auth;
+namespace SEP_Web.Helper.Authentication;
 public interface IUserSession
 {
     void UserCheckIn(UserAdministrator users);

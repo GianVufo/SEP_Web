@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SEP_Web.Auth;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Validations;

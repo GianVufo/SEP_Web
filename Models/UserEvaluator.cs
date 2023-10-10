@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SEP_Web.Auth;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Keys;
 
 namespace SEP_Web.Models;

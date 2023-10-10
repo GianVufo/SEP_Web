@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SEP_Web.Auth;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -47,7 +47,7 @@ public class LoginController : Controller
                         return View("Index");
                     }
 
-                    if (!users.ValidPassword(login.Password)) //valida o retorno da chamada do método ValidPassword que verifica a autenticidade do salt da senha do usuário para validar a senha e permitir o acesso.
+                    if (!Cryptography.VerifyPasswordEncrypted(login.Password, users.Password)) //valida o retorno da chamada do método VerifyPasswordEncrypted que verifica a autenticidade do salt da senha do usuário para validar a senha e permitir o acesso.
                     {
                         Login.FieldsValidation("InvalidPass", "A senha informada é inválida", this);
                         return View("Index");
@@ -60,7 +60,7 @@ public class LoginController : Controller
 
                 }
 
-                TempData["ErrorMessage"] = $"Os dados informados são inválidos. Corrija-os e tente novamente.";
+                TempData["ErrorMessage"] = "Os dados informados são inválidos. Corrija-os e tente novamente.";
             }
 
             return View("Index");

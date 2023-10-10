@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using SEP_Web.Database;
 using SEP_Web.Models;
 
-namespace SEP_Web.Auth;
-public class Session : IUserSession
+namespace SEP_Web.Helper.Authentication;
+public class UserSession : IUserSession
 {
     private readonly IHttpContextAccessor _httpContext;
     private readonly SEP_WebContext _database;
 
-    public Session(IHttpContextAccessor httpContext, SEP_WebContext database)
+    public UserSession(IHttpContextAccessor httpContext, SEP_WebContext database)
     {
         _httpContext = httpContext;
         _database = database;

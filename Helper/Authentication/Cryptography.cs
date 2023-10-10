@@ -1,4 +1,4 @@
-namespace SEP_Web.Auth;
+namespace SEP_Web.Helper.Authentication;
 public static class Cryptography
 {
     public static string EncryptPassword(string pass)
