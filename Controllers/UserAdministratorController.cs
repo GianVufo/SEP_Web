@@ -13,13 +13,11 @@ public class UserAdministratorController : Controller
     private readonly ILogger<UserAdministratorController> _logger;
     private readonly IUserAdministratorServices _usersServices;
     private readonly IValidationUsers _validation;
-    private readonly SEP_WebContext _database;
 
-    public UserAdministratorController(ILogger<UserAdministratorController> logger, IUserAdministratorServices usersServices, IValidationUsers validation, SEP_WebContext databse)
+    public UserAdministratorController(ILogger<UserAdministratorController> logger, IUserAdministratorServices usersServices, IValidationUsers validation)
     {
         _logger = logger;
         _usersServices = usersServices;
-        _database = databse;
         _validation = validation;
     }
 
@@ -100,7 +98,7 @@ public class UserAdministratorController : Controller
         {
             // Caso alguma excessão seja lançada, aqui ela será tratada e o erro gerado será capturado pelo objeto de log do sistema para facilitar a depuração de falhas obtidas;
             TempData["ErrorMessage"] = "Não foi possível cadastrar o usuário.";
-            _logger.LogError("Não foi possível cadsatrar o usuário", e.Message);
+            _logger.LogError("Não foi possível registrar o usuário, uma excessão no método de registro da controller está a impedir a inserção do registro", e.Message);
             return RedirectToAction("Index");
         }
     }

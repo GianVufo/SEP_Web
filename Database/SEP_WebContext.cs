@@ -26,10 +26,18 @@ public class SEP_WebContext : DbContext
     public DbSet<Section> Section => Set<Section>();
     public DbSet<Sector> Sector => Set<Sector>();
 
-    protected void OnModelCreation(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(typeof(SEP_WebContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+
+        // Adiciona um índice exclusivo para as propriedades que não podem ser duplicadas em um novo regtistro 'UserAdministrator'
+        modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Masp).IsUnique();
+        modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Name).IsUnique();
+        modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Login).IsUnique();
+        modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Email).IsUnique();
+        modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Phone).IsUnique();
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SEP_WebContext).Assembly);
     }
 
 }

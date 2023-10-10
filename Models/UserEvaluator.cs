@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SEP_Web.Helper.Authentication;
 using SEP_Web.Keys;
 
 namespace SEP_Web.Models;
@@ -75,10 +74,5 @@ public class UserEvaluator
     [ForeignKey("SectorId"), Required(ErrorMessage = "Selecione um setor!")]
     public int? SectorId { get; set; }
     public Sector Sector { get; set; }
-
-    public bool ValidPassword(string pass)
-    {
-        return Cryptography.VerifyPasswordEncrypted(pass, Password);
-    }
 
 }
