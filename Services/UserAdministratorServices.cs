@@ -38,7 +38,7 @@ public class UserAdministratorServices : IUserAdministratorServices
 
                 await _database.SaveChangesAsync(); // Salva as alterações realizadas no contexto de dados;
 
-                return users; // Retorna o objeto de usuários que é o tipo de retorno esperado pelo método;
+                return users; // Retorna o objeto de administrador que é o tipo de retorno esperado pelo método;
             }
             
             /* fail */

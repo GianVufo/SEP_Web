@@ -55,7 +55,7 @@ public class UserAdministratorController : Controller
             {
                 var fieldsToValidate = new List<(string FieldName, object Value)>
                 {
-                    /* Com o modelo validado uma variável é criada recebendo uma lista como atribuição. a lista contêm parâmetros que serão utilizados na validação dos dados do usuário a fim de evitar a duplicação de dados nos campos de preenchimento obrigatótio no registro de usuários. */
+                    /* Com o modelo validado uma variável é criada recebendo uma lista como atribuição. a lista contêm parâmetros que serão utilizados na validação dos dados do usuário a fim de evitar a duplicação de dados nos campos de preenchimento obrigatótio no registro de usuários administradores. */
 
                     // parâmetros a serem validados;
                     ("Masp", users.Masp),
@@ -69,7 +69,7 @@ public class UserAdministratorController : Controller
                 {
                     /* Bloco de repetição pe responsável por chamar o método VerifyIfFieldExistsInBothUsersTable que validará os campos e evitará a duplicação de registros.*/
                     
-                    if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value)) ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso."); // Retorna a mensagem de erro ao usuário para cada campo que não tenha cumprido as exigências.
+                    if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value)) ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso."); // Retorna a mensagem de erro ao usuário final para cada campo que não tenha cumprido as exigências.
                 }
 
                 if (ModelState.ErrorCount > 0) return View(users); // Exibe a view com as respectivas mensagens de erro para cada campo preenchido de forma inválida.
@@ -77,8 +77,11 @@ public class UserAdministratorController : Controller
                 if (!_validation.ValidatePassword(users.Password, confirmPass, this)) return View();  // Realiza a validação da senha que está sendo cadastrada comparando-a ao segundo campo de inserção de senha que valida a igualdade nas senhas digitadas a fim de evitar erros para o usuário na criação da senha;
 
                 /* Assim que todos os dados forem validados de acordo com as exigências; */
-                await _usersServices.RegisterUserAdministrator(users); // Utiliza o serviço correspondente ao usuário para relizar a nova inserção do registro
-                TempData["SuccessMessage"] = "Usuário cadastrado com sucesso."; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
+
+                await _usersServices.RegisterUserAdministrator(users); // Utiliza o serviço correspondente ao usuário para relizar a nova inserção do registro;
+
+                TempData["SuccessMessage"] = "Administrador cadastrado com sucesso."; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
+
                 return RedirectToAction("Index"); // Redireciona à página principal de adminisradores que exibe a listagem completa dos mesmos;
             }
 
@@ -87,6 +90,7 @@ public class UserAdministratorController : Controller
                 /* Força o usuário a repetir a senha para que seja possível compará-las; */
 
                 TempData["ErrorPass"] = "Confirme a senha."; // TempData que retorna a mensagem de obrigatoriedade da confirmação de senha para o usuário final;
+                
                 return View();
             }
 
@@ -110,7 +114,7 @@ public class UserAdministratorController : Controller
 
             TempData["ErrorMessage"] = "Um erro inesperado não está permitindo que você cadastre o usuário, contate o desenvolvedor."; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
 
-            _logger.LogError("[ADM_CONTROLLER] : Houve um erro desconhecido tentar registrar o usuário administrador: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o erro;
+            _logger.LogWarning("[ADM_CONTROLLER] : Houve um erro desconhecido tentar registrar o usuário administrador: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o erro;
 
             _logger.LogWarning("[ADM_SERVICE] : Objeto localizado {Description}", ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
 

@@ -18,12 +18,57 @@ public class UserEvaluatorServices : IUserEvaluatorServices
 
     public async Task<UserEvaluator> RegisterUserEvaluator(UserEvaluator evaluator)
     {
-        evaluator.RegisterDate = DateTime.Now;
-        evaluator.Password = Cryptography.EncryptPassword(evaluator.Password);
-        await _database.Evaluator.AddAsync(evaluator);
-        await _database.SaveChangesAsync();
-        return evaluator;
-    }
+        /* HEAD */
+
+        // Recebe um objeto de "avaliador" de forma assíncrona que tem por objetivo ser incluído ao banco de dados como um novo registro;
+        
+        // O método está envolvido em um bloco try catch para lidar com as excessões geradas. Caso ocorra algum erro ou falha de um tratativa essencial uma excessão é lançada e devidamente tratada para trazer um retorno eficaz de acordo com a tratativa. O bloco ainda armazena os erros gerados em um arquivo de log para que facilite na manutenção e resolução dos erros;
+
+        try
+        {
+            if(!(evaluator == null))
+            {
+                /* done */
+
+                evaluator.RegisterDate = DateTime.Now; // atribui ao atributo "Data de Registro" data e hora atuais no momento do registro de um avaliador;
+
+                evaluator.Password = Cryptography.EncryptPassword(evaluator.Password); // Criptografa com base em um algoritmo utilizando a biblioteca BCrypt a senha que está sendo cadastrada; 
+
+                await _database.Evaluator.AddAsync(evaluator); // Com base no contexto de dados concebido através de injeção de dependência, adiciona o novo registro como uma nova linha na tabela de administradores;
+
+                await _database.SaveChangesAsync(); // Salva as alterações realizadas no contexto de dados;
+
+                return evaluator; // Retorna o objeto de avaliador que é o tipo de retorno esperado pelo método;
+            }
+
+            /* fail */
+            throw new ArgumentNullException(nameof(evaluator), "[EVALUATOR_SERVICE] : Os dados fornecidos são inválidos para registrar um administrador.");
+        }
+        catch(MySqlException ex)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[EVALUATOR_SERVICE] : Houve um erro na comunicação com o banco de dados impossibilitando o registro do avaliador: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
+
+            _logger.LogError("[EVALUATOR_SERVICE] :Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+
+            //evaluator = null; // Atrtibui um valor nullo ao objeto de administrador ;
+
+            return evaluator; // Retorna o objeto nullo;
+        }
+        catch(Exception ex2)
+        {
+            // GENERIC EXCEPTION :
+
+            _logger.LogWarning("[EVALUATOR_SERVICE] : Houve um erro desconhecido tentar registrar o usuário avaliador: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o alerta;
+
+            _logger.LogWarning("[EVALUATOR_SERVICE] : Objeto localizado {Description}", ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+            
+            //evaluator = null; // Atrtibui um valor nullo ao objeto de administrador ;
+
+            return evaluator; // Retorna o objeto nullo; 
+        }
+    }   
 
     public async Task<ICollection<UserEvaluator>> EvaluatorsList()
     {
@@ -41,19 +86,19 @@ public class UserEvaluatorServices : IUserEvaluatorServices
             if (!(evaluator == null || evaluator.Count == 0)) return evaluator; // Verifica se a coleção não é nula ou se não está vazia;
 
             /* fail */
-            _logger.LogWarning("A coleção que está sendo acessada está vazia e não possui nenhum registro !"); // Armazena em um arquivo de log de avisos uma mensagem que informa que a lista está vazia;
+            _logger.LogWarning("[EVALUATOR_SERVICE] : A coleção que está sendo acessada está vazia e não possui nenhum registro !"); // Armazena em um arquivo de log de avisos uma mensagem que informa que a lista está vazia;
             
             /* fail */
-            throw new ArgumentNullException(nameof(evaluator), "A coleção que está sendo acessada está vazia e não possui nenhum registro !"); // Lança uma excessão que também armazena uma mensagem que avisa sobre a lista estar vazia;
+            throw new ArgumentNullException(nameof(evaluator), "[EVALUATOR_SERVICE] : A coleção que está sendo acessada está vazia e não possui nenhum registro !"); // Lança uma excessão que também armazena uma mensagem que avisa sobre a lista estar vazia;
 
         }
         catch (MySqlException ex)
         {
             // MYSQL EXEPTIONS :
 
-            _logger.LogError("Houve um erro na comunicação com o banco de dados. Não é possível retornar a lista de avaliadores: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
+            _logger.LogError("[EVALUATOR_SERVICE] : Houve um erro na comunicação com o banco de dados. Não é possível retornar a lista de avaliadores: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
 
-            _logger.LogError("Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+            _logger.LogError("[EVALUATOR_SERVICE] : Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
 
             return new List<UserEvaluator>(); // Retorna uma lista de avaliadores vazia que permite ao usuário final obter uma tela de retorno para não lidar com a exibição de excessões na tela;
         }
@@ -61,9 +106,9 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         {
             // GENERIC EXCEPTION :
 
-            _logger.LogWarning("Houve um erro desconhecido ao retornar a lista de avaliadores: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o alerta;
+            _logger.LogWarning("[EVALUATOR_SERVICE] : Houve um erro desconhecido ao retornar a lista de avaliadores: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o alerta;
 
-            _logger.LogWarning("A coleção está localizada {Description}", ex2.StackTrace.Trim());
+            _logger.LogWarning("[EVALUATOR_SERVICE] : A coleção está localizada {Description}", ex2.StackTrace.Trim());
             return new List<UserEvaluator>(); // Retorna uma lista de avaliadores vazia que permite ao usuário final obter uma tela de retorno para não lidar com a exibição de excessões na tela;
         }
     }
