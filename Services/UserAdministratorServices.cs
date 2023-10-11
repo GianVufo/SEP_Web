@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SEP_Web.Helper.Authentication;
-using SEP_Web.Helper.Exceptions;
 using SEP_Web.Database;
 using SEP_Web.Models;
 using MySqlConnector;
@@ -19,54 +18,97 @@ public class UserAdministratorServices : IUserAdministratorServices
 
     public async Task<UserAdministrator> RegisterUserAdministrator(UserAdministrator users)
     {
-        // Ao registrar um usuário ele deve receber a data correspondente ao momento de cadastro do mesmo, e também ter sua senha criptografada;
+        /* HEAD */
+
+        // Recebe um objeto de "administrador" de forma assíncrona que tem por objetivo ser incluído ao banco de dados como um novo registro;
+        
+        // O método está envolvido em um bloco try catch para lidar com as excessões geradas. Caso ocorra algum erro ou falha de um tratativa essencial uma excessão é lançada e devidamente tratada para trazer um retorno eficaz de acordo com a tratativa. O bloco ainda armazena os erros gerados em um arquivo de log para que facilite na manutenção e resolução dos erros;
+
         try{
 
-            if(users == null) throw new ArgumentNullException(nameof(users), "Os dados informados são inválidos para registrar um administrador. Por favor, corrija-os e tente novamente!");
-                
-            users.RegisterDate = DateTime.Now; // atribuição de data e hora atual no momento do registro de um usuário;
-            users.Password = Cryptography.EncryptPassword(users.Password); // Criptografa com base em um algoritmo utilizando a biblioteca BCrypt a senha que está sendo cadastrada;
+            if(!(users == null)) // Valida se o usuário recebido como parâmetro não é nulo;
+            {
+                /* done */
 
-            await _database.Administrator.AddAsync(users); // Com base no contexto de dados concebido através de injeção de dependência, adiciona o novo registro como uma nova linha na tabela de administradores;
+                users.RegisterDate = DateTime.Now; // atribui ao atributo "Data de Registro" data e hora atuais no momento do registro de um administrador;
 
-            await _database.SaveChangesAsync(); // Salva as alterações realizadas no contexto de dados;
+                users.Password = Cryptography.EncryptPassword(users.Password); // Criptografa com base em um algoritmo utilizando a biblioteca BCrypt a senha que está sendo cadastrada;
+
+                await _database.Administrator.AddAsync(users); // Com base no contexto de dados concebido através de injeção de dependência, adiciona o novo registro como uma nova linha na tabela de administradores;
+
+                await _database.SaveChangesAsync(); // Salva as alterações realizadas no contexto de dados;
+
+                return users; // Retorna o objeto de usuários que é o tipo de retorno esperado pelo método;
+            }
+            
+            /* fail */
+            throw new ArgumentNullException(nameof(users), "[ADM_SERVICE] : Os dados fornecidos são inválidos para registrar um administrador.");
 
         }catch(MySqlException ex)
         {
-            _logger.LogError("Houve um erro na comunicação com o banco de dados impossibilitando o registro do administrador.", ex.Message);
-            throw;
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[ADM_SERVICE] : Houve um erro na comunicação com o banco de dados impossibilitando o registro do administrador: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
+
+            _logger.LogError("[ADM_SERVICE] :Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+
+            users = null; // Atrtibui um valor nullo ao objeto de administrador ;
+
+            return users; // Retorna o objeto nullo; 
         }
         catch(Exception ex2)
         {
-            _logger.LogError("Houve um erro desconhecido no serviço de usuário administrador impossibilitando o registro do administradores.", ex2.Message);
-            throw;
-        }
+           // GENERIC EXCEPTION :
 
-        return users;
+            _logger.LogWarning("ADM_[SERVICE] : Houve um erro desconhecido tentar registrar o usuário administrador: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o alerta;
+
+            _logger.LogWarning("[ADM_SERVICE] : Objeto localizado {Description}", ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+            
+            users = null; // Atrtibui um valor nullo ao objeto de administrador ;
+
+            return users; // Retorna o objeto nullo; 
+        }
     }
 
     public async Task<ICollection<UserAdministrator>> AdministratorsList()
     {
-        // O método de listagem de administradores retorna uma coleção de administradores que podem ser iterados como uma lista;
+        /* HEAD */
+
+        // Obtem uma Colleção de "Avaliadores" de forma assíncrona e retorna uma lista dos registros encontrados na tabela do banco de dados;
+
+        // O método está envolvido em um bloco try catch para lidar com as excessões geradas. Caso ocorra algum erro ou falha de um tratativa essencial uma excessão é lançada e devidamente tratada para trazer um retorno eficaz de acordo com a tratativa. O bloco ainda armazena os erros gerados em um arquivo de log para que facilite na manutenção e resolução dos erros;
         
         try
         {
-            ICollection<UserAdministrator> users = await _database.Administrator.ToListAsync();
+            ICollection<UserAdministrator> users = await _database.Administrator.ToListAsync(); // Coleção de administradores gerada de uma lista assíncrona da tabela de administradores presente no banco de dados. Este será o tipo de retorno final esperado pelo método;
 
-            if (users == null) throw new ArgumentNullException(nameof(users), "Erro gerado na atribuição de valores da coleção de administradores");
+            /* done */
+            if (!(users == null || users.Count == 0)) return users; // Verifica se a coleção não é nula ou se não está vazia;
 
-            return users;
+            /* fail */ 
+            _logger.LogWarning("[ADM_SERVICE] : A coleção que está sendo acessada está vazia e não possui nenhum registro !"); // Armazena em um arquivo de log de avisos uma mensagem que informa que a lista está vazia;
+
+            /* fail */ 
+            throw new ArgumentNullException(nameof(users), "[ADM_SERVICE] : A coleção que está sendo acessada está vazia e não possui nenhum registro !"); // Lança uma excessão que também armazena uma mensagem que avisa sobre a lista estar vazia;
 
         }
         catch (MySqlException ex)
         {
-            _logger.LogError("Houve um erro na comunicação com o banco de dados para retornar a lista de administradores", ex.Message);
-            throw;
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[ADM_SERVICE] : Houve um erro na comunicação com o banco de dados. Não é possível retornar a lista de administradores: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
+
+            _logger.LogError("[ADM_SERVICE] : Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada de onde foram capturados os erros;
+            
+            return new List<UserAdministrator>(); // Retorna uma lista de administradores vazia que permite ao usuário final obter uma tela de retorno para não lidar com a exibição de excessões na tela;
         }
-        catch (Exception ex)
+        catch (Exception ex2)
         {
-            _logger.LogError("Houve um desconhecido para retornar a lista de administradores", ex.Message);
-            throw;
+            // GENERIC EXCEPTION :
+
+            _logger.LogWarning("[ADM_SERVICE] : Houve um erro desconhecido ao retornar a lista de avaliadores: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o alerta;
+            
+            return new List<UserAdministrator>(); // Retorna uma lista de administradores vazia que permite ao usuário final obter uma tela de retorno para não lidar com a exibição de excessões na tela;
         }  
     }
 

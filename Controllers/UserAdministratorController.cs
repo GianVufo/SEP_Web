@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SEP_Web.Database;
+using MySqlConnector;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Validations;
 using SEP_Web.Models;
@@ -31,16 +31,24 @@ public class UserAdministratorController : Controller
 
     public IActionResult Register()
     {
-        /* ActionResult que exibe a página de cadastro de usuários que contém o formulário de registro com os campos necessários para um novo cadastro; */
+        /* HEAD */
+
+        // ActionResult que exibe a página de cadastro de usuários que contém o formulário de registro com os campos necessários para um novo cadastro;
+        // Responsável apenas por exibir a view que contém o formulário de cadastro;
         return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Register(UserAdministrator users, string confirmPass)
     {
-        /* ActionResult responsável por realizar o post das informações que serão recebidas através do formulário de cadastro de usuários*/
+        /* HEAD */
 
-        /* O método está envolvido em um bloco try catch para lidar com erros que possam ocorrer. Caso ocorra algum erro e uma excessão é lançada e devidamente tratada para retornar uma mensagem ao usuário informando sobre o erro, o bloco ainda armazena o erro gerado em um arquivo de log para que facilite a manutenção e resolução de erros; */
+        // ActionResult responsável por realizar o post das informações que serão recebidas através do formulário de cadastro de usuários;
+
+        // Recebe um objeto de "administrador" de forma assíncrona que tem por objetivo ser incluído ao banco de dados como um novo registro, também recebe uma string "confirmPass" que será utilizada para realizar a comparação das senhas digitadas pelo usuário a fim de verificar se elas se correspondem;
+        
+        // O método está envolvido em um bloco try catch para lidar com as excessões geradas. Caso ocorra algum erro ou falha de um tratativa essencial uma excessão é lançada e devidamente tratada para trazer um retorno eficaz de acordo com a tratativa. O bloco ainda armazena os erros gerados em um arquivo de log para que facilite na manutenção e resolução dos erros;
+        
         try
         {
             if (ModelState.IsValid) // valida o modelo utilizado na requisição
@@ -60,25 +68,15 @@ public class UserAdministratorController : Controller
                 foreach (var (fieldName, value) in fieldsToValidate)
                 {
                     /* Bloco de repetição pe responsável por chamar o método VerifyIfFieldExistsInBothUsersTable que validará os campos e evitará a duplicação de registros.*/
-                    if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
-                    {
-                        ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso."); // Retorna a mensagem de erro ao usuário para cada campo que não tenha cumprido as exigências.
-                    }
+                    
+                    if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value)) ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso."); // Retorna a mensagem de erro ao usuário para cada campo que não tenha cumprido as exigências.
                 }
 
-                if (ModelState.ErrorCount > 0)
-                {
-                    return View(users); // Exibe a view com as respectivas mensagens de erro para cada campo preenchido de forma inválida.
-                }
+                if (ModelState.ErrorCount > 0) return View(users); // Exibe a view com as respectivas mensagens de erro para cada campo preenchido de forma inválida.
 
-                if (!_validation.ValidatePassword(users.Password, confirmPass, this)) 
-                {
-                    // Realiza a validação da senha que está sendo cadastrada comparando-a ao segundo campo de inserção de senha que valida a igualdade nas senhas digitadas a fim de evitar erros para o usuário na criação da senha;
-                    return View();
-                }
+                if (!_validation.ValidatePassword(users.Password, confirmPass, this)) return View();  // Realiza a validação da senha que está sendo cadastrada comparando-a ao segundo campo de inserção de senha que valida a igualdade nas senhas digitadas a fim de evitar erros para o usuário na criação da senha;
 
                 /* Assim que todos os dados forem validados de acordo com as exigências; */
-
                 await _usersServices.RegisterUserAdministrator(users); // Utiliza o serviço correspondente ao usuário para relizar a nova inserção do registro
                 TempData["SuccessMessage"] = "Usuário cadastrado com sucesso."; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
                 return RedirectToAction("Index"); // Redireciona à página principal de adminisradores que exibe a listagem completa dos mesmos;
@@ -86,20 +84,37 @@ public class UserAdministratorController : Controller
 
             if (string.IsNullOrEmpty(confirmPass))
             {
-                /* Obriga o usuário a repetir a senha para que seja possível compará-las; */
+                /* Força o usuário a repetir a senha para que seja possível compará-las; */
 
-                TempData["ErrorPass"] = "Confirme a senha."; // Armazena em um TempData uma mensagem de retorno ao usuário informando sobre a obrigatoriedade de preenchimento do campo;
+                TempData["ErrorPass"] = "Confirme a senha."; // TempData que retorna a mensagem de obrigatoriedade da confirmação de senha para o usuário final;
                 return View();
             }
 
             return View(users);
         }
-        catch (Exception e)
+        catch (MySqlException ex)
         {
-            // Caso alguma excessão seja lançada, aqui ela será tratada e o erro gerado será capturado pelo objeto de log do sistema para facilitar a depuração de falhas obtidas;
-            TempData["ErrorMessage"] = "Não foi possível cadastrar o usuário.";
-            _logger.LogError("Não foi possível registrar o usuário, uma excessão no método de registro da controller está a impedir a inserção do registro", e.Message);
-            return RedirectToAction("Index");
+            // MYSQL EXEPTIONS :
+
+            TempData["ErrorMessage"] = "Não foi possível cadastrar o usuário. Erro ao tentar conectar com o banco de dados !"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
+
+            _logger.LogError("[ADM_CONTROLLER] : Houve um erro na comunicação com o banco de dados impossibilitando o registro do administrador: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
+
+            _logger.LogError("[ADM_CONTROLLER] :Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada de onde foram capturados os erros;
+
+            return RedirectToAction("Index"); // Redireciona para a action Index para que usuário receba o feedback do erro;
+        }
+        catch (Exception ex2)
+        {
+            // GENERIC EXCEPTION :
+
+            TempData["ErrorMessage"] = "Um erro inesperado não está permitindo que você cadastre o usuário, contate o desenvolvedor."; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
+
+            _logger.LogError("[ADM_CONTROLLER] : Houve um erro desconhecido tentar registrar o usuário administrador: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o erro;
+
+            _logger.LogWarning("[ADM_SERVICE] : Objeto localizado {Description}", ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+
+            return RedirectToAction("Index"); // Redireciona para a action Index para que usuário receba o feedback do erro;
         }
     }
 

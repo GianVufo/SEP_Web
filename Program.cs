@@ -1,9 +1,10 @@
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Validations;
 using SEP_Web.Database;
-using SEP_Web.Helper.Authentication;
-using SEP_Web.Models;
 using SEP_Web.Services;
+using SEP_Web.Models;
+using Serilog.Events;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,8 +45,6 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-var logFac = app.Services.GetService<ILoggerFactory>(); // call to ILoggerFactory service, enabling.
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -70,6 +69,21 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
-logFac.AddFile("Logs/log-{Date}.txt", LogLevel.Error);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Logger(lc => lc
+        .WriteTo.File("Logs/log-{Date}.txt", rollingInterval: RollingInterval.Day)
+        .WriteTo.Logger(lc2 => lc2
+            .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error)
+            .WriteTo.File("Logs/Errors/log-error-{Date}.txt", rollingInterval: RollingInterval.Month)
+        )
+        .WriteTo.Logger(lc3 => lc3
+            .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Warning)
+            .WriteTo.File("Logs/Warning/log-warning-{Date}.txt", rollingInterval: RollingInterval.Day)
+        )
+    ).CreateLogger();
+
+var logFac = app.Services.GetRequiredService<ILoggerFactory>();
+logFac.AddSerilog();
 
 app.Run();

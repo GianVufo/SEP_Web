@@ -30,7 +30,7 @@ public class SEP_WebContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Adiciona um índice exclusivo para as propriedades que não podem ser duplicadas em um novo regtistro 'UserAdministrator'
+        // Adiciona como índice exclusivo as propriedades que não podem ser duplicadas na tabela de administradores presente no banco de dados;
         modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Masp).IsUnique();
         modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Name).IsUnique();
         modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Login).IsUnique();
