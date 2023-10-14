@@ -43,6 +43,11 @@ namespace SEP_Web.Services
             return divisions;
         }
 
+        public async Task<ICollection<Division>> GetDivisionsAsync(int instituitionId)
+        {
+            return await _database.Division.Where(d => d.InstituitionId == instituitionId).ToListAsync();
+        }
+
         public void DeleteDivision(int id)
         {
             Division deleteDivision = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do órgão");

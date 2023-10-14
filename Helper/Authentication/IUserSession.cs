@@ -3,8 +3,8 @@ using SEP_Web.Models;
 namespace SEP_Web.Helper.Authentication;
 public interface IUserSession
 {
-    void UserCheckIn(UserAdministrator users);
+    void UserCheckIn(Users users);
     void UserCheckOut();
-    UserAdministrator SearchUserSession();
-    Task<UserAdministrator> UserSignIn(int? masp, string login);
+    Users SearchUserSession();
+    Task<Users> UserSignIn(int? masp, string login);
 }

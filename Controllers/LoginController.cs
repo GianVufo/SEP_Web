@@ -1,20 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Helper.Authentication;
+using SEP_Web.Helper.Validations;
 using SEP_Web.Models;
-using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 public class LoginController : Controller
 {
     private readonly ILogger<LoginController> _logger;
-    private readonly IUserAdministratorServices _usersServices;
     private readonly IUserSession _session;
+    private readonly IValidationUsers _validation;
 
-    public LoginController(ILogger<LoginController> logger, IUserAdministratorServices usersServices, IUserSession session)
+    public LoginController(ILogger<LoginController> logger, IUserSession session, IValidationUsers validation)
     {
         _logger = logger;
-        _usersServices = usersServices;
         _session = session;
+        _validation = validation;
     }
 
     public IActionResult Index()
@@ -31,25 +31,25 @@ public class LoginController : Controller
         {
             if (ModelState.IsValid) // valida o modelo de dados
             {
-                UserAdministrator users = await _session.UserSignIn(login.Masp, login.LoginName); // UserSignIn é chamado para armazenar o usuário correspondente em um objeto de Usuários
+                Users users = await _session.UserSignIn(login.Masp, login.LoginName); // UserSignIn é chamado para armazenar o usuário correspondente em um objeto de Usuários
 
-                if (users != null) // valida se o objeto é nullo
+                if (!(users == null)) // valida se o objeto é nullo
                 {
                     if (login.Masp != users.Masp)
                     {
-                        Login.FieldsValidation("InvalidMASP", "O MASP informado é inválido", this);
+                        _validation.LoginFieldsValidation("InvalidMASP", "O MASP informado é inválido", this);
                         return View("Index");
                     }
 
                     if (login.LoginName != users.Login)
                     {
-                        Login.FieldsValidation("InvalidLogin", "O login informado é inválido", this);
+                        _validation.LoginFieldsValidation("InvalidLogin", "O login informado é inválido", this);
                         return View("Index");
                     }
 
                     if (!Cryptography.VerifyPasswordEncrypted(login.Password, users.Password)) //valida o retorno da chamada do método VerifyPasswordEncrypted que verifica a autenticidade do salt da senha do usuário para validar a senha e permitir o acesso.
                     {
-                        Login.FieldsValidation("InvalidPass", "A senha informada é inválida", this);
+                        _validation.LoginFieldsValidation("InvalidPass", "A senha informada é inválida", this);
                         return View("Index");
                     }
                     else
@@ -60,9 +60,9 @@ public class LoginController : Controller
 
                 }
 
-                TempData["ErrorMessage"] = "Os dados informados são inválidos. Corrija-os e tente novamente.";
-            }
+                TempData["ErrorMessage"] = "Os dados informados são inválidos. Corrija-os e tente novamente."; 
 
+            }
             return View("Index");
         }
         catch (Exception e)

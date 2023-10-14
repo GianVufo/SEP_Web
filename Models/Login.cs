@@ -12,9 +12,4 @@ public class Login
 
     [Required(ErrorMessage = "Informe sua senha.")]
     public string Password { get; set; }
-
-    public static void FieldsValidation(string fields, string errorMessage, Controller controller)
-    {
-        controller.TempData[fields] = errorMessage;
-    }
 }

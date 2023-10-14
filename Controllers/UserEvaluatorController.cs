@@ -1,33 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SEP_Web.Helper.Authentication;
-using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Validations;
+using SEP_Web.Helper.Exceptions.Messages.FeedbackMessages;
 using SEP_Web.Models;
 using SEP_Web.Services;
 using MySqlConnector;
 
 namespace SEP_Web.Controllers;
 
-[UserAdminFilter]
+[UserEvaluatorFilter]
 public class UserEvaluatorController : Controller
 {
     private readonly ILogger<UserEvaluatorController> _logger;
     private readonly IUserEvaluatorServices _evaluatorServices;
+    private readonly IDivisionServices _divisionServices;
+    private readonly ISectionServices _sectionServices;
+    private readonly ISectorServices _sectorServices;
     private readonly IValidationUsers _validation;
-    private readonly IUserSession _session;
-    private readonly SEP_WebContext _database;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IValidationUsers validation, IUserSession session, SEP_WebContext database)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices, IValidationUsers validation)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
-        _database = database;
-        _session = session;
+        _divisionServices = divisionServices;
+        _sectionServices = sectionServices;
+        _sectorServices = sectorServices;
         _validation = validation;
     }
-
+    
     public async Task<IActionResult> Index()
     {
         try
@@ -36,18 +37,18 @@ public class UserEvaluatorController : Controller
 
             if(!(users == null || users.Count == 0)) return View(users);
 
-            throw new ArgumentNullException(nameof(users), "[EVALUATOR_CONTROLLER] : A Coleção que está sendo acessada esta vazia ou é nula;");
+            throw new ArgumentNullException(nameof(users), ExceptionsFeedbackMessage.ErrorEmptyCollection);
 
         }
         catch(MySqlException ex)
         {
             // MYSQL EXEPTIONS :
 
-            TempData["ErrorMessage"] = "Não foi possível obter a listagem de avaliadores. Erro ao tentar conectar com o banco de dados !"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
+            TempData["ErrorMessage"] = $"{ExceptionsFeedbackMessage.ErrorEvaluatorList} {ExceptionsFeedbackMessage.ErrorDatabaseConnection}"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
 
-            _logger.LogError("[EVALUATOR_CONTROLLER] : Houve um erro na comunicação com o banco de dados impossibilitando a listagem de avaliadores: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
+            _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionsFeedbackMessage.ErrorDatabaseConnection, ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
 
-            _logger.LogError("[EVALUATOR_CONTROLLER] :Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada de onde foram capturados os erros;
+            _logger.LogError("{exceptionMessage} : {Description} - ", ExceptionsFeedbackMessage.ErrorDetail, ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada de onde foram capturados os erros;
 
             return View(new List<UserEvaluator>());
         }
@@ -55,11 +56,11 @@ public class UserEvaluatorController : Controller
         {
             // GENERIC EXCEPTION :
 
-            TempData["ErrorMessage"] = "Não existem avaliadores cadastrados !"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
+            TempData["ErrorMessage"] = ExceptionsFeedbackMessage.ErrorEmptyCollection; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
 
-            _logger.LogWarning("[EVALUATOR_CONTROLLER] : A lista de avaliadores se encontra vazia: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o erro;
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionsFeedbackMessage.ErrorEmptyCollection, ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o erro;
 
-            _logger.LogWarning("[EVALUATOR_CONTROLLER] : Objeto localizado {Description}", ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+            _logger.LogWarning("{exceptionMessage} :  {Description}", ExceptionsFeedbackMessage.ErrorDetail, ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
             return View(new List<UserEvaluator>());
         }
         
@@ -76,9 +77,9 @@ public class UserEvaluatorController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetDivisionsByInstituition(int instituitionId)
+    public async Task<IActionResult> GetDivisionsByInstituition(int instituitionId)
     {
-        var divisions = _database.Division.Where(d => d.InstituitionId == instituitionId).ToList();
+        ICollection<Division> divisions = await _divisionServices.GetDivisionsAsync(instituitionId);
 
         var divisionList = divisions.Select(d => new SelectListItem
         {
@@ -90,9 +91,9 @@ public class UserEvaluatorController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetSectionsByDivisions(int DivisionId)
+    public async Task<IActionResult> GetSectionsByDivisions(int divisionId)
     {
-        var sections = _database.Section.Where(d => d.DivisionId == DivisionId).ToList();
+       ICollection<Section> sections = await _sectionServices.GetSectionsAsync(divisionId);
 
         var sectionList = sections.Select(d => new SelectListItem
         {
@@ -104,9 +105,9 @@ public class UserEvaluatorController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetSectorsBySections(int SectionId)
+    public async Task<IActionResult> GetSectorsBySections(int sectionId)
     {
-        var sectors = _database.Sector.Where(d => d.SectionId == SectionId).ToList();
+       ICollection<Sector> sectors = await _sectorServices.GetSectorsAsync(sectionId);
 
         var sectorList = sectors.Select(d => new SelectListItem
         {
@@ -137,9 +138,8 @@ public class UserEvaluatorController : Controller
                 /* Com o modelo validado uma variável é criada recebendo uma lista como atribuição. a lista contêm parâmetros que serão utilizados na validação dos dados do usuário a fim de evitar a duplicação de dados nos campos de preenchimento obrigatótio no registro de usuários administradores. */
 
 
-                UserAdministrator userInSession = _session.SearchUserSession(); // Recuperando dados do administrador que irá cadastrar o avaliador;
-
-                evaluator.UserAdministratorId = userInSession.Id; // Atibuindo o id do administrador que está realizando o cadastro do avaliador para preencher a chave estrangeira de relacionamento estre as entidades;
+                // Users userInSession = _session.SearchUserSession(); // Recuperando dados do administrador que irá cadastrar o avaliador;
+                // evaluator.RegisteredBy = userInSession.Login; // Atibuindo o id do administrador que está realizando o cadastro do avaliador para preencher a chave estrangeira de relacionamento estre as entidades;
 
                 // parâmetros a serem validados;
                 var fieldsToValidate = new List<(string FieldName, object Value)>
@@ -166,7 +166,7 @@ public class UserEvaluatorController : Controller
 
                 await _evaluatorServices.RegisterUserEvaluator(evaluator); // Utiliza o serviço correspondente ao usuário para relizar a nova inserção do registro;
 
-                TempData["SuccessMessage"] = "Avaliador cadastrado com sucesso."; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
+                TempData["SuccessMessage"] = ExceptionsFeedbackMessage.SuccessEvaluatorRegistration; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
 
                 return RedirectToAction("Index"); // Redireciona à página principal de adminisradores que exibe a listagem completa dos mesmos;
             }
@@ -186,11 +186,11 @@ public class UserEvaluatorController : Controller
         {
             // MYSQL EXEPTIONS :
 
-            TempData["ErrorMessage"] = "Não foi possível cadastrar o usuário. Erro ao tentar conectar com o banco de dados !"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
+            TempData["ErrorMessage"] = $"{ExceptionsFeedbackMessage.ErrorEvaluatorRegistration} {ExceptionsFeedbackMessage.ErrorDatabaseConnection}"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
 
-            _logger.LogError("[EVALUATOR_CONTROLLER] : Houve um erro na comunicação com o banco de dados impossibilitando o registro do avaliador: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
+            _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionsFeedbackMessage.ErrorDatabaseConnection, ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
 
-            _logger.LogError("[EVALUATOR_CONTROLLER] :Detalhamento dos erros: {Description} - ", ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada de onde foram capturados os erros;
+            _logger.LogError("{exceptionMessage} : {Description} - ", ExceptionsFeedbackMessage.ErrorDetail, ex.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada de onde foram capturados os erros;
 
             return View(evaluator); // Redireciona para a action Index para que usuário receba o feedback do erro;
         }
@@ -198,16 +198,17 @@ public class UserEvaluatorController : Controller
         {
             // GENERIC EXCEPTION :
 
-            TempData["ErrorMessage"] = "Um erro inesperado não está permitindo que você cadastre o usuário, contate o desenvolvedor."; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
+            TempData["ErrorMessage"] = ExceptionsFeedbackMessage.ErrorEvaluatorRegistration; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
 
-            _logger.LogWarning("[EVALUATOR_CONTROLLER] : Houve um erro desconhecido tentar registrar o usuário avaliador: {Message} value = '{InnerExeption}'", ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o erro;
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionsFeedbackMessage.ErrorUnexpected, ex2.Message, ex2.InnerException); // Armazena em um arquivo de log de avisos uma mensagem personalizada seguida de informações sobre o erro;
 
-            _logger.LogWarning("[EVALUATOR_CONTROLLER] : Objeto localizado {Description}", ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
+            _logger.LogWarning("{exceptionMessage} : {Description}",  ExceptionsFeedbackMessage.ErrorDetail, ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
 
             return View(evaluator); // Redireciona para a action Index para que usuário receba o feedback do erro;
         }
     }
 
+    [UserAdminFilter]
     [HttpPost]
     public IActionResult Delete(string decision, UserEvaluator evaluator)
     {

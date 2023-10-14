@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Helper.Authentication;
-using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Models;
 using SEP_Web.Services;
@@ -11,16 +10,14 @@ namespace SEP_Web.Controllers;
 public class SectorController : Controller
 {
     private readonly ILogger<SectorController> _logger;
-    private readonly SEP_WebContext _database;
     private readonly ISectorServices _sectorServices;
     private readonly IUserSession _session;
 
-    public SectorController(ILogger<SectorController> logger, ISectorServices sectorServices, IUserSession session, SEP_WebContext database)
+    public SectorController(ILogger<SectorController> logger, ISectorServices sectorServices, IUserSession session)
     {
         _logger = logger;
         _sectorServices = sectorServices;
         _session = session;
-        _database = database;
     }
 
     public async Task<IActionResult> Index()
@@ -36,7 +33,7 @@ public class SectorController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 sector.UserAdministratorId = userInSession.Id;
 
                 await _sectorServices.RegisterSector(sector);
@@ -61,7 +58,7 @@ public class SectorController : Controller
 
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 sector.UserAdministratorId = userInSession.Id;
 
                 await _sectorServices.SectorEdit(sector);

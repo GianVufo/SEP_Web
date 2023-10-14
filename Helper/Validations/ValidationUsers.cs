@@ -30,4 +30,9 @@ public class ValidationUsers : IValidationUsers
 
         return true;
     }
+
+    public void LoginFieldsValidation(string fields, string errorMessage, Controller controller)
+    {
+        controller.TempData[fields] = errorMessage;
+    }
 }

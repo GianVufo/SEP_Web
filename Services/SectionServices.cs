@@ -43,6 +43,11 @@ public class SectionServices : ISectionServices
         return sections;
     }
 
+    public async Task<ICollection<Section>> GetSectionsAsync(int divisionId)
+    {
+        return await _database.Section.Where(s => s.DivisionId == divisionId).ToListAsync();
+    }
+
     public void DeleteSection(int id)
     {
         Section deleteSection = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão da sessão");

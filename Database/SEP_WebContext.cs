@@ -36,6 +36,15 @@ public class SEP_WebContext : DbContext
         modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Login).IsUnique();
         modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Email).IsUnique();
         modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Phone).IsUnique();
+        modelBuilder.Entity<UserAdministrator>().HasIndex(u => u.Password).IsUnique();
+
+        // Adiciona como índice exclusivo as propriedades que não podem ser duplicadas na tabela de avaliadores presente no banco de dados;
+        modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Masp).IsUnique();
+        modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Name).IsUnique();
+        modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Login).IsUnique();
+        modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Email).IsUnique();
+        modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Phone).IsUnique();
+        modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Password).IsUnique();
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SEP_WebContext).Assembly);
     }

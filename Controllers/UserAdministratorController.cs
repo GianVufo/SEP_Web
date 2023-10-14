@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using SEP_Web.Filters;
+using SEP_Web.Helper.Exceptions.Messages.FeedbackMessages;
 using SEP_Web.Helper.Validations;
 using SEP_Web.Models;
 using SEP_Web.Services;
@@ -80,7 +81,7 @@ public class UserAdministratorController : Controller
 
                 await _usersServices.RegisterUserAdministrator(users); // Utiliza o serviço correspondente ao usuário para relizar a nova inserção do registro;
 
-                TempData["SuccessMessage"] = "Administrador cadastrado com sucesso."; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
+                TempData["SuccessMessage"] = ExceptionsFeedbackMessage.SuccessAdministratorRegistration; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
 
                 return RedirectToAction("Index"); // Redireciona à página principal de adminisradores que exibe a listagem completa dos mesmos;
             }
@@ -100,7 +101,7 @@ public class UserAdministratorController : Controller
         {
             // MYSQL EXEPTIONS :
 
-            TempData["ErrorMessage"] = "Não foi possível cadastrar o usuário. Erro ao tentar conectar com o banco de dados !"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
+            TempData["ErrorMessage"] = $"{ExceptionsFeedbackMessage.ErrorAdministratorRegistration} {ExceptionsFeedbackMessage.ErrorDatabaseConnection}"; // Mensagem de retorno que será exibida ao usuário final informando o erro ocorrido;
 
             _logger.LogError("[ADM_CONTROLLER] : Houve um erro na comunicação com o banco de dados impossibilitando o registro do administrador: {Message}, ErrorCode = {errorCode} - Represents {Error} ", ex.Message.ToUpper(), ex.Number, ex.ErrorCode); // Armazena em um arquivo de log de erros uma mensagem personalizada seguida de informações sobre o erro capturado;
 

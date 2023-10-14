@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Helper.Authentication;
-using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Models;
 using SEP_Web.Services;
@@ -11,16 +10,14 @@ namespace SEP_Web.Controllers;
 public class DivisionController : Controller
 {
     private readonly ILogger<DivisionController> _logger;
-    private readonly SEP_WebContext _database;
     private readonly IDivisionServices _divisionServices;
     private readonly IUserSession _session;
 
-    public DivisionController(ILogger<DivisionController> logger, IDivisionServices divisionServices, IUserSession session, SEP_WebContext database)
+    public DivisionController(ILogger<DivisionController> logger, IDivisionServices divisionServices, IUserSession session)
     {
         _logger = logger;
         _divisionServices = divisionServices;
         _session = session;
-        _database = database;
     }
 
     public async Task<IActionResult> Index()
@@ -36,7 +33,7 @@ public class DivisionController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 division.UserAdministratorId = userInSession.Id;
 
                 await _divisionServices.RegisterDivision(division);
@@ -61,7 +58,7 @@ public class DivisionController : Controller
 
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 division.UserAdministratorId = userInSession.Id;
 
                 await _divisionServices.DivisionEdit(division);

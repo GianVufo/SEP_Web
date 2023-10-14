@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Helper.Authentication;
-using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Models;
 using SEP_Web.Services;
@@ -13,13 +12,11 @@ public class InstituitionController : Controller
     private readonly ILogger<InstituitionController> _logger;
     private readonly IInstituitionServices _instituitionServices;
     private readonly IUserSession _session;
-    private readonly SEP_WebContext _database;
 
-    public InstituitionController(ILogger<InstituitionController> logger, IInstituitionServices instituitionServices, SEP_WebContext databse, IUserSession session)
+    public InstituitionController(ILogger<InstituitionController> logger, IInstituitionServices instituitionServices, IUserSession session)
     {
         _logger = logger;
         _instituitionServices = instituitionServices;
-        _database = databse;
         _session = session;
     }
 
@@ -37,7 +34,7 @@ public class InstituitionController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 instituition.UserAdministratorId = userInSession.Id;
 
                 await _instituitionServices.RegisterInstituition(instituition);
@@ -62,7 +59,7 @@ public class InstituitionController : Controller
 
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 instituition.UserAdministratorId = userInSession.Id;
 
                 await _instituitionServices.InstituitionEdit(instituition);

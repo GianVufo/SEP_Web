@@ -101,7 +101,26 @@ button.accept-policy {
 }
 
 .alert {
-  text-align: center;
+  width: 80%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pop-up {
+  display: flex;
+  align-items: center;
+  padding: 2vh;
+  margin-top: 3vh;
+}
+
+.pop-up .alert {
+  margin-left: 10vh;
+}
+
+.pop-up .alert i{
+  margin-right: 1.5vh;
 }
 
 #login-form .input-group {

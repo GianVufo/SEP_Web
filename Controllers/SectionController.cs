@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Helper.Authentication;
-using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Models;
 using SEP_Web.Services;
@@ -11,16 +10,14 @@ namespace SEP_Web.Controllers;
 public class SectionController : Controller
 {
     private readonly ILogger<SectionController> _logger;
-    private readonly SEP_WebContext _database;
     private readonly ISectionServices _sectionServices;
     private readonly IUserSession _session;
 
-    public SectionController(ILogger<SectionController> logger, ISectionServices sectionServices, IUserSession session, SEP_WebContext database)
+    public SectionController(ILogger<SectionController> logger, ISectionServices sectionServices, IUserSession session)
     {
         _logger = logger;
         _sectionServices = sectionServices;
         _session = session;
-        _database = database;
     }
 
     public async Task<IActionResult> Index()
@@ -36,7 +33,7 @@ public class SectionController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 sections.UserAdministratorId = userInSession.Id;
 
                 await _sectionServices.RegisterSection(sections);
@@ -67,7 +64,7 @@ public class SectionController : Controller
 
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = _session.SearchUserSession();
+                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
                 section.UserAdministratorId = userInSession.Id;
 
                 await _sectionServices.SectionEdit(section);

@@ -26,6 +26,11 @@ public class SectorServices : ISectorServices
         return sector;
     }
 
+    public async Task<ICollection<Sector>> GetSectorsAsync(int sectionId)
+    {
+        return await _database.Sector.Where(s => s.SectionId == sectionId).ToListAsync();
+    }
+
     public async Task<Sector> SectorEdit(Sector sector)
     {
         Sector sectorEdit = SearchForId(sector.Id) ?? throw new Exception("Houve um erro na atualização do setor");
@@ -54,5 +59,4 @@ public class SectorServices : ISectorServices
     {
         return _database.Sector.FirstOrDefault(x => x.Id == id);
     }
-
 }

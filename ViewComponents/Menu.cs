@@ -15,7 +15,7 @@ public class Menu : ViewComponent //  A classe menu herda de View component
 
         MemoryStream memoryStream = new(Encoding.UTF8.GetBytes(userSession));
 
-        UserAdministrator users = await JsonSerializer.DeserializeAsync<UserAdministrator>(memoryStream); // os dados correspondentes são desserializados em um objto users utilizando o JsonSerializer
+        Users users = await JsonSerializer.DeserializeAsync<Users>(memoryStream); // os dados correspondentes são desserializados em um objto users utilizando o JsonSerializer
 
         return View(users); // Retorna o objeto dessesrializado.
     }

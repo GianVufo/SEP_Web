@@ -15,25 +15,42 @@ public class UserSession : IUserSession
         _database = database;
     }
 
-    public UserAdministrator SearchUserSession()
+    public Users SearchUserSession()
     {
 
         string userSession = _httpContext.HttpContext.Session.GetString("userCheckIn");
 
         if (string.IsNullOrEmpty(userSession)) return null;
 
-        return JsonSerializer.Deserialize<UserAdministrator>(userSession);
+        UserAdministrator administrator = JsonSerializer.Deserialize<UserAdministrator>(userSession);
+
+        if (administrator == null)
+        {
+            UserEvaluator evaluator = JsonSerializer.Deserialize<UserEvaluator>(userSession);
+            return evaluator;
+        }
+
+        return administrator;
     }
 
-    public void UserCheckIn(UserAdministrator users)
+    public void UserCheckIn(Users users)
     {
-        string value = JsonSerializer.Serialize(users); // Serialiaza um objeto de usuário e passa os dados obtidos em uma variável de sessão.
+        string value = JsonSerializer.Serialize(users); // Serializa um objeto de usuário e passa os dados obtidos em uma variável de sessão.
         _httpContext.HttpContext.Session.SetString("userCheckIn", value);
+        _httpContext.HttpContext.Session.SetInt32("userType", (int)users.UserType);
     }
     
-    public async Task<UserAdministrator> UserSignIn(int? masp, string login) // Retorna um usuário que corresponda aos dados da busca.
+    public async Task<Users> UserSignIn(int? masp, string login) // Retorna um usuário que corresponda aos dados da busca.
     {
-        return await _database.Administrator.FirstOrDefaultAsync(x => x.Login.ToUpper() == login.ToUpper() || x.Masp == masp);
+        Users administrator = await _database.Administrator.FirstOrDefaultAsync(x => x.Login.ToUpper() == login.ToUpper() || x.Masp == masp);
+
+        if (administrator == null)
+        {
+            Users evaluator = await _database.Evaluator.FirstOrDefaultAsync(x => x.Login.ToUpper() == login.ToUpper() || x.Masp == masp);
+            return evaluator;
+        }
+
+        return administrator;
     }
 
     public void UserCheckOut()

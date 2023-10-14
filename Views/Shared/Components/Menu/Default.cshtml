@@ -1,5 +1,6 @@
-@model UserAdministrator
+@model Users
 @using SEP_Web.Models
+@using SEP_Web.Keys
 
 <div class="container">
     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bem vindo, @Model.Login</a>
@@ -12,7 +13,7 @@
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             </li>
-            @if (Model.UserType == SEP_Web.Keys.UserTypesEnum.User_Admin)
+            @if (Model.UserType == UserTypesEnum.User_Admin)
             {
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="menu-users" role="button" data-bs-toggle="dropdown"
@@ -62,9 +63,14 @@
                         <li><a class="dropdown-item" asp-controller="" asp-action="">Licença</a></li>
                     </ul>
                 </li>
+            }else if (Model.UserType == UserTypesEnum.User_Evaluator)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="UserEvaluator" asp-action="Index">Avaliadores</a>
+                </li>
             }
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="" asp-action="">Avaliações</a>
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Avaliações</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">Sair</a>

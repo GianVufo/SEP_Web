@@ -18,7 +18,8 @@ public class UserAdminFilter : ActionFilterAttribute
         }
         else
         {
-            UserAdministrator users = JsonSerializer.Deserialize<UserAdministrator>(userSession);
+            Users users = JsonSerializer.Deserialize<Users>(userSession);
+            
             if (users == null)
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
