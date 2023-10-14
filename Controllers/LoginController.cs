@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Helper.Authentication;
+using SEP_Web.Helper.Exceptions.Messages.FeedbackMessages;
 using SEP_Web.Helper.Validations;
 using SEP_Web.Models;
 
@@ -60,15 +61,15 @@ public class LoginController : Controller
 
                 }
 
-                TempData["ErrorMessage"] = "Os dados informados são inválidos. Corrija-os e tente novamente."; 
+                TempData["ErrorMessage"] = ExceptionsFeedbackMessage.InvalidData; 
 
             }
             return View("Index");
         }
         catch (Exception e)
         {
-            TempData["ErrorMessage"] = $"Não foi possível realizar o login. Por favor tente novamente mais tarde !";
-            _logger.LogError("Não foi possível realizar o login", e.Message);
+            TempData["ErrorMessage"] = $"{ExceptionsFeedbackMessage.ErrorDatabaseConnection} {ExceptionsFeedbackMessage.ErrorLogin}";
+            _logger.LogError(ExceptionsFeedbackMessage.ErrorLogin, e.Message);
             return RedirectToAction("Index");
         }
     }
