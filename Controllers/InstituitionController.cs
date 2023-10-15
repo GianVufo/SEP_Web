@@ -34,7 +34,7 @@ public class InstituitionController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 instituition.UserAdministratorId = userInSession.Id;
 
                 await _instituitionServices.RegisterInstituition(instituition);
@@ -56,10 +56,9 @@ public class InstituitionController : Controller
     {
         try
         {
-
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 instituition.UserAdministratorId = userInSession.Id;
 
                 await _instituitionServices.InstituitionEdit(instituition);

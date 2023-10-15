@@ -18,24 +18,26 @@ public class LoginController : Controller
         _validation = validation;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        // A action result de index Login valida se a sessão é nula e redireciona o usuário de acordo com o retorno da condição.
-        if (_session.SearchUserSession() != null) return RedirectToAction("Index", "Home");
+        // A action result de index Login chama o método "SearchUserSession" para verificar se a sessão é nula e redireciona o usuário de acordo com o retorno da condição.
+        if ( await _session.SearchUserSession() != null) return RedirectToAction("Index", "Home");
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignIn(Login login) // Loga o usuário e estabelece para o mesmo uma sessão
+    public async Task<IActionResult> SignIn(Login login)
     {
+        // Estabelece uma conexão para o usuário e inicia-se uma sessão para o mesmo;
         try
         {
             if (ModelState.IsValid) // valida o modelo de dados
             {
-                Users users = await _session.UserSignIn(login.Masp, login.LoginName); // UserSignIn é chamado para armazenar o usuário correspondente em um objeto de Usuários
+                Users users = await _session.UserSignIn(login.Masp, login.LoginName); // UserSignIn busca por um usuário que corresponda aos dados e o armazena em um objeto do tipo "Users", que é uma classe base para as demais entidades de usuários;
 
-                if (!(users == null)) // valida se o objeto é nullo
+                if (!(users == null)) // verifica se o objeto não é nullo;
                 {
+                    // faz a validação entre os dados informados pelo o usuário e os dados correspondente ao usuário que foi encontrado para que seja verificado a autenticidade do mesmo;
                     if (login.Masp != users.Masp)
                     {
                         _validation.LoginFieldsValidation("InvalidMASP", "O MASP informado é inválido", this);
@@ -48,14 +50,14 @@ public class LoginController : Controller
                         return View("Index");
                     }
 
-                    if (!Cryptography.VerifyPasswordEncrypted(login.Password, users.Password)) //valida o retorno da chamada do método VerifyPasswordEncrypted que verifica a autenticidade do salt da senha do usuário para validar a senha e permitir o acesso.
+                    if (!Cryptography.VerifyPasswordEncrypted(login.Password, users.Password)) // Valida a senha do usuário com base na verificação do salto da hash única que é gerada no momento da criação da senha, comparando-o a senha informada;
                     {
                         _validation.LoginFieldsValidation("InvalidPass", "A senha informada é inválida", this);
                         return View("Index");
                     }
                     else
                     {
-                        _session.UserCheckIn(users); // Estabelece a conexão do usuário através do método UserCheckIn que Serializa o objeto passado e redireciona o usuário para a devida página com sua sessão estabelecida.
+                        _session.UserCheckIn(users); // Utiliza o método UserCheckIn que serializa um objeto de usuário com base no objeto que foi recebido e validado. Também seta uma váriavel de sessão para capturar o  tipo do usuário;
                         return RedirectToAction("Index", "Home");
                     }
 
@@ -75,7 +77,7 @@ public class LoginController : Controller
     }
     public IActionResult Logout()
     {
-        _session.UserCheckOut(); // finaliza a sessão através da chamada de UserCheckOut que remove os dados da sessão ao desserializar o objeto
+        _session.UserCheckOut(); // UserCheckOut finaliza e remove os dados da sessão;
         return RedirectToAction("Index", "Login");
     }
 }

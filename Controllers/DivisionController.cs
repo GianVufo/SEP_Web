@@ -33,7 +33,7 @@ public class DivisionController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 division.UserAdministratorId = userInSession.Id;
 
                 await _divisionServices.RegisterDivision(division);
@@ -58,7 +58,7 @@ public class DivisionController : Controller
 
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 division.UserAdministratorId = userInSession.Id;
 
                 await _divisionServices.DivisionEdit(division);

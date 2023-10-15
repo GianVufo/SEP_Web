@@ -33,7 +33,7 @@ public class SectorController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 sector.UserAdministratorId = userInSession.Id;
 
                 await _sectorServices.RegisterSector(sector);
@@ -58,7 +58,7 @@ public class SectorController : Controller
 
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 sector.UserAdministratorId = userInSession.Id;
 
                 await _sectorServices.SectorEdit(sector);

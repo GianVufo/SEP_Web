@@ -33,7 +33,7 @@ public class SectionController : Controller
         {
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 sections.UserAdministratorId = userInSession.Id;
 
                 await _sectionServices.RegisterSection(sections);
@@ -64,7 +64,7 @@ public class SectionController : Controller
 
             if (ModelState.IsValid)
             {
-                UserAdministrator userInSession = (UserAdministrator)_session.SearchUserSession();
+                Users userInSession = await _session.SearchUserSession();
                 section.UserAdministratorId = userInSession.Id;
 
                 await _sectionServices.SectionEdit(section);
