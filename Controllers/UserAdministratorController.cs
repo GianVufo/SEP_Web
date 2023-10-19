@@ -159,7 +159,7 @@ public class UserAdministratorController : Controller
                 {
                     /* Bloco de repetição responsável por chamar o método VerifyIfFieldExistsInBothUsersTable que validará os campos e evitará a duplicação de registros.*/
 
-                    if (_usersServices.IsFieldChanged(existingUser, fieldName, value)) 
+                    if (_validation.IsFieldChanged(existingUser, fieldName, value)) 
                     {
                         // verfica se campos inalterados não são uma duplicata de outro registro utilizando o objeto recuperado do usuário que está sendo atualizado;
                         if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))

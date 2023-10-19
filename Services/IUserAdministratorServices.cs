@@ -8,6 +8,5 @@ public interface IUserAdministratorServices
     Task<ICollection<UserAdministrator>> AdministratorsList(); // Coleção de administradores;
     Task<UserAdministrator> AdministratorsEdit(UserAdministrator users); // Edição de um registro já existente de um usuário administrador;
     Task<UserAdministrator> ChangePassword(ChangePassword changePassword); // Alterar senha de um usuário;
-    bool IsFieldChanged(UserAdministrator existingUser, string fieldName, object newValue); // valida os campos de um usuário a fim de verificar duplicação de dados na edição de um usuário;
     void DeleteUserAdministrator(int id); // Exclui usuário administrador;
 }

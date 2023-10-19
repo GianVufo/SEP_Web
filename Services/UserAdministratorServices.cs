@@ -150,14 +150,6 @@ public class UserAdministratorServices : IUserAdministratorServices
         return searchUser;
     }
 
-    public bool IsFieldChanged(UserAdministrator existingUser, string fieldName, object newValue)
-    {
-        // Verifique se o valor dos campos em um usuário já existente é diferente do novo valor (considerando nulos);
-        // Método de auxílio da edição de usuários administradores;
-        var existingValue = existingUser.GetType().GetProperty(fieldName).GetValue(existingUser);
-        return !Equals(existingValue, newValue);
-    }
-
     public void DeleteUserAdministrator(int id)
     {
         // A exclusão de usuários também é realizada partindo da busca de um usuário pelo Id, caso não exista um parâmetro de busca correspondente uma excessão é lançada;

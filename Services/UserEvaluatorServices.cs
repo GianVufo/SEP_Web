@@ -123,6 +123,10 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         searchEvaluator.Email = evaluator.Email;
         searchEvaluator.Phone = evaluator.Phone;
         searchEvaluator.Position = evaluator.Position;
+        searchEvaluator.InstituitionId = evaluator.InstituitionId;
+        searchEvaluator.DivisionId = evaluator.DivisionId;
+        searchEvaluator.SectionId = evaluator.SectionId;
+        searchEvaluator.SectorId = evaluator.SectorId;
         searchEvaluator.ModifyDate = DateTime.Now;
 
         _database.Evaluator.Update(searchEvaluator);
