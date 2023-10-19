@@ -17,15 +17,17 @@ public class UserEvaluatorController : Controller
     private readonly IDivisionServices _divisionServices;
     private readonly ISectionServices _sectionServices;
     private readonly ISectorServices _sectorServices;
+    private readonly IUserEvaluatorServices _usersServices;
     private readonly IValidationUsers _validation;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices, IValidationUsers validation)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices, IUserEvaluatorServices usersServices, IValidationUsers validation)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
         _divisionServices = divisionServices;
         _sectionServices = sectionServices;
         _sectorServices = sectorServices;
+        _usersServices = usersServices;
         _validation = validation;
     }
     
@@ -74,6 +76,14 @@ public class UserEvaluatorController : Controller
 
         // Responsável apenas por exibir a view que contém o formulário de cadastro;
         return View();
+    }
+
+    public IActionResult Edit(int id)
+    {
+        /* Exibe  a view de edição de usuários com os dados recuperados do usuário a ser editado de acordo com o Id do mesmo; */
+
+        UserEvaluator users = _usersServices.SearchForId(id);
+        return View(users); // monta a view alimentando-a com o objeto recuperado da busca;
     }
 
     [HttpGet]
@@ -205,6 +215,80 @@ public class UserEvaluatorController : Controller
             _logger.LogWarning("{exceptionMessage} : {Description}",  ExceptionsFeedbackMessage.ErrorDetail, ex2.StackTrace.Trim()); // Armazena em um arquivo de log de errors a descrição detalhada e de onde foram capturados os erros;
 
             return View(evaluator); // Redireciona para a action Index para que usuário receba o feedback do erro;
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(ModifyEvaluator modifyEvaluator)
+    {
+        /* ActionResult Responsável por realizar o post dos dados de usuário a serem atualizados. Assim como no registro de usuários o método é envolvido em um bloco try catch para tratar excessões e também realiza uma validação do modelo de dados a fim de verificar se os campos estão preenchidos corretamente e evita duplicatas. */
+        try
+        {
+            /* Para validar campos duplicados sem que os dados do prórprio usuário a ser editado sejam vistos como uma duplicata um objeto do usuário já exitente armazena os dados do mesmo para que a validação verifique se campos inalterados pertencem apenas ao objeto recuperado; */
+            UserEvaluator existingUser  = _usersServices.SearchForId(modifyEvaluator.Id);
+
+            if (ModelState.IsValid)
+            {
+
+                var fieldsToValidate = new List<(string FieldName, object Value)>
+                {
+                    /* Com o modelo validado uma variável é criada recebendo uma lista como atribuição. a lista contêm parâmetros que serão utilizados na validação dos dados do usuário a fim de evitar a duplicação de dados nos campos de preenchimento obrigatótio no registro de usuários. */
+
+                    // Parâmetros a serem validados;
+                    ("Masp", modifyEvaluator.Masp),
+                    ("Name", modifyEvaluator.Name),
+                    ("Login", modifyEvaluator.Login),
+                    ("Email", modifyEvaluator.Email),
+                    ("Phone", modifyEvaluator.Phone),
+                };
+
+                foreach (var (fieldName, value) in fieldsToValidate)
+                {
+                    /* Bloco de repetição responsável por chamar o método VerifyIfFieldExistsInBothUsersTable que validará os campos e evitará a duplicação de registros.*/
+
+                    if (_validation.IsFieldChanged(existingUser, fieldName, value)) 
+                    {
+                        // verfica se campos inalterados não são uma duplicata de outro registro utilizando o objeto recuperado do usuário que está sendo atualizado;
+                        if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
+                        {
+                            ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso."); // Retorna a mensagem de erro ao usuário para cada campo que não tenha cumprido as exigências;
+                        }
+                    }
+                }
+
+                if (ModelState.ErrorCount > 0)
+                {
+                    return View(existingUser); // Exibe a view com as respectivas mensagens de erro para cada campo preenchido de forma inválida;
+                }
+
+                existingUser = new UserEvaluator() // Repassa as alterações realizadas para uma nova instância de administrador;
+                {
+                    Id = modifyEvaluator.Id,
+                    Masp = modifyEvaluator.Masp,
+                    Name = modifyEvaluator.Name,
+                    Login = modifyEvaluator.Login,
+                    Email = modifyEvaluator.Email,
+                    Phone = modifyEvaluator.Phone,
+                    InstituitionId = modifyEvaluator.InstituitionId,
+                    DivisionId = modifyEvaluator.DivisionId,
+                    SectionId = modifyEvaluator.SectionId,
+                    SectorId = modifyEvaluator.SectorId,
+                    Position = modifyEvaluator.Position,
+                };
+
+                await _usersServices.EvaluatorsEdit(existingUser); // Utiliza o serviço correspondente ao usuário para relizar a atualização do registro
+                TempData["SuccessMessage"] = "Usuário editado com sucesso."; // Passa para um objeto TempData uma mensagem de sucesso que será exibida para o usuário caso tudo ocorra como o esperado;
+                return RedirectToAction("Index"); // Redireciona à página principal de adminisradores que exibe a listagem completa dos mesmos;
+            }
+
+            return View(existingUser);
+        }
+        catch (Exception e)
+        {
+            // Caso alguma excessão seja lançada, aqui ela será tratada e o erro gerado será capturado pelo objeto de log do sistema para facilitar a depuração de falhas obtidas;
+            TempData["ErrorMessage"] = "Não foi possível editar o usuário."; // TempData que armazena a mensagem de erro que será exibida ao usuário ao se deparar com uma falha na edição de um usuário;
+            _logger.LogError("Não foi possível editar o usuário", e.Message);
+            return RedirectToAction("Index");
         }
     }
 

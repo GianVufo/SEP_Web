@@ -19,7 +19,7 @@
                 <div class="adm-line"></div>
             </div>
 
-            <form class="register-adm-form" id="evaluator-register" asp-controller="UserEvaluator" asp-action="Register" method="post">
+            <form class="evaluator-register register-adm-form" asp-controller="UserEvaluator" asp-action="Register" method="post">
 
                 <input type="hidden" value="@UserTypesEnum.User_Evaluator" class="form-control" id="evaluator-type"
                     name="userType" asp-for="UserType">
@@ -105,7 +105,7 @@
 
                         <div class="form-group">
 
-                            <select class="form-select" name="instituitionId" id="evaluator-instituition" autocomplete="off" asp-for="InstituitionId">
+                            <select class="evaluator-instituition form-select" name="instituitionId" autocomplete="off" asp-for="InstituitionId">
                                 <option value=""> -- selecione o ógão -- </option>
                                 @foreach (var i in await _instituitionServices.InstituitionsList())
                                 {
@@ -124,7 +124,7 @@
 
                         <div class="form-group">
 
-                            @Html.DropDownListFor(model => model.DivisionId, Enumerable.Empty<SelectListItem>(), "-- selecione a divisão --", new { @class = "form-select w-100", @id = "evaluator-division" })
+                            @Html.DropDownListFor(model => model.DivisionId, Enumerable.Empty<SelectListItem>(), "-- selecione a divisão --", new { @class = "evaluator-division form-select w-100" })
                                 <div class="validate-fields">
                                     @Html.ValidationMessageFor(x => x.DivisionId)
                                 </div>
@@ -136,7 +136,7 @@
 
                         <div class="form-group">
 
-                            @Html.DropDownListFor(model => model.SectionId, Enumerable.Empty<SelectListItem>(), "-- selecione a seção --", new { @class = "form-select w-100", @id = "evaluator-section" })
+                            @Html.DropDownListFor(model => model.SectionId, Enumerable.Empty<SelectListItem>(), "-- selecione a seção --", new { @class = "evaluator-section form-select w-100" })
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.SectionId)
                             </div>
@@ -149,7 +149,7 @@
 
                         <div class="form-group">
 
-                            @Html.DropDownListFor(model => model.SectorId, Enumerable.Empty<SelectListItem>(), "-- selecione o setor --", new { @class = "form-select w-100", @id = "evaluator-sector" })
+                            @Html.DropDownListFor(model => model.SectorId, Enumerable.Empty<SelectListItem>(), "-- selecione o setor --", new { @class = "evaluator-sector form-select w-100" })
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.SectorId)
                             </div>

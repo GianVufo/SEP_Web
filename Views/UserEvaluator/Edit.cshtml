@@ -1,6 +1,8 @@
 @model UserEvaluator
 @using SEP_Web.Models
+@using SEP_Web.Services
 @using SEP_Web.Keys
+@inject IInstituitionServices _instituitionServices
 @{
 
     ViewData["Title"] = "Edição de avaliador";
@@ -55,9 +57,9 @@
 
             </div>
 
-            <form class="register-adm-form" asp-controller="UserEvaluator" asp-action="Edit" method="post">
+            <form class="evaluator-register register-adm-form" asp-controller="UserEvaluator" asp-action="Edit" method="post">
 
-                <input type="hidden" value="@UserTypesEnum.User_Evaluator class="form-control" id="evaluator-type" name="userType" asp-for="UserType">
+                <input type="hidden" value="@UserTypesEnum.User_Evaluator" class="form-control" id="evaluator-type" name="userType" asp-for="UserType">
 
                 <div class="row">
                     <div class="col-md-6 adm-col">
@@ -113,6 +115,67 @@
                             <input type="password" class="form-control" id="edit-evaluator-confirmPass" placeholder="Confirme sua senha..." title="Para alterar a senha vá até o menu 'Alterar senha'." disabled>
                         </div>
                     </div>
+
+                    <hr id="evaluator-line">
+
+                    <div class="col-md-6 evaluator-col">
+
+                        <div class="form-group">
+
+                            <select class="evaluator-instituition form-select" id="teste1" name="instituitionId" asp-for="InstituitionId">
+                                <option value=""> -- selecione o ógão -- </option>
+                                @foreach (var i in await _instituitionServices.InstituitionsList())
+                                {
+                                    <option value="@i.Id">@i.Name</option>
+                                }
+                            </select>
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.InstituitionId)
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 evaluator-col">
+
+                        <div class="form-group">
+
+                            @Html.DropDownListFor(model => model.DivisionId, Enumerable.Empty<SelectListItem>(), "-- selecione a divisão --", new { @class = " evaluator-division form-select w-100" })
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.DivisionId)
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6 evaluator-col">
+
+                        <div class="form-group">
+
+                            @Html.DropDownListFor(model => model.SectionId, Enumerable.Empty<SelectListItem>(), "-- selecione a seção --", new { @class = " evaluator-section form-select w-100" })
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.SectionId)
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6 evaluator-col">
+
+                        <div class="form-group">
+
+                            @Html.DropDownListFor(model => model.SectorId, Enumerable.Empty<SelectListItem>(), "-- selecione o setor --", new { @class = "evaluator-sector form-select w-100" })
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.SectorId)
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
                 </div>
 
                 <div class="form-group">

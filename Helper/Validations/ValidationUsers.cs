@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SEP_Web.Database;
+using SEP_Web.Models;
 
 namespace SEP_Web.Helper.Validations;
 public class ValidationUsers : IValidationUsers
@@ -34,5 +35,13 @@ public class ValidationUsers : IValidationUsers
     public void LoginFieldsValidation(string fields, string errorMessage, Controller controller)
     {
         controller.TempData[fields] = errorMessage;
+    }
+
+    public bool IsFieldChanged(Users existingUser, string fieldName, object newValue)
+    {
+        // Verifique se o valor dos campos em um usuário já existente é diferente do novo valor (considerando nulos);
+        // Método de auxílio da edição de usuários administradores;
+        var existingValue = existingUser.GetType().GetProperty(fieldName).GetValue(existingUser);
+        return !Equals(existingValue, newValue);
     }
 }
